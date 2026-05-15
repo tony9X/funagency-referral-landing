@@ -52,7 +52,7 @@
       "name": "FunAgency",
       "url": "https://funagency.com",
       "logo": "https://funagency.com/logo.png",
-      "sameAs": ["https://t.me/funagency_news", "https://t.me/funagency_bot"]
+      "sameAs": ["https://t.me/funagency_news", "https://t.me/funagency_ref_official_bot"]
     },
     {
       "@type": "FAQPage",
@@ -891,9 +891,9 @@
             <span class="lang-content" data-lang="en">Open Telegram bot</span>
           </h3>
           <p class="text-zinc-400">
-            <span class="lang-content active" data-lang="vi"><span class="text-orange-400 mono">@funagency_bot</span> · 3 bước · 1 phút</span>
-            <span class="lang-content" data-lang="ru"><span class="text-orange-400 mono">@funagency_bot</span> · 3 шага · 1 минута</span>
-            <span class="lang-content" data-lang="en"><span class="text-orange-400 mono">@funagency_bot</span> · 3 steps · 1 min</span>
+            <span class="lang-content active" data-lang="vi"><span class="text-orange-400 mono">@funagency_ref_official_bot</span> · 3 bước · 1 phút</span>
+            <span class="lang-content" data-lang="ru"><span class="text-orange-400 mono">@funagency_ref_official_bot</span> · 3 шага · 1 минута</span>
+            <span class="lang-content" data-lang="en"><span class="text-orange-400 mono">@funagency_ref_official_bot</span> · 3 steps · 1 min</span>
           </p>
         </div>
       </div>
@@ -906,7 +906,7 @@
             <span class="lang-content" data-lang="ru">Получи реф-ссылку</span>
             <span class="lang-content" data-lang="en">Get personal ref link</span>
           </h3>
-          <p class="text-zinc-400 mono text-sm">https://t.me/funagency_bot?start=ref_<span class="text-orange-400">USERID</span></p>
+          <p class="text-zinc-400 mono text-sm">https://t.me/funagency_ref_official_bot?start=ref_<span class="text-orange-400">USERID</span></p>
         </div>
       </div>
 
@@ -1299,7 +1299,7 @@
             <span class="lang-content active" data-lang="vi">Hoặc mở bot trực tiếp →</span>
             <span class="lang-content" data-lang="ru">Или открой бот напрямую →</span>
             <span class="lang-content" data-lang="en">Or open bot directly →</span>
-            <a href="https://t.me/funagency_bot" class="text-orange-400" target="_blank" rel="noopener noreferrer">@funagency_bot</a>
+            <a href="https://t.me/funagency_ref_official_bot" class="text-orange-400" target="_blank" rel="noopener noreferrer">@funagency_ref_official_bot</a>
           </p>
         </form>
       </div>
@@ -1337,8 +1337,8 @@
             <span class="lang-content" data-lang="en">Conversion notifications</span>
           </li>
         </ul>
-        <a href="https://t.me/funagency_bot" class="gradient-orange py-3 rounded-lg font-bold text-center hover:scale-[1.02] transition" target="_blank" rel="noopener noreferrer">
-          🤖 <span class="lang-content active lc-inline" data-lang="vi">Mở @funagency_bot</span><span class="lang-content lc-inline" data-lang="ru">Открыть @funagency_bot</span><span class="lang-content lc-inline" data-lang="en">Open @funagency_bot</span>
+        <a href="https://t.me/funagency_ref_official_bot" class="gradient-orange py-3 rounded-lg font-bold text-center hover:scale-[1.02] transition" target="_blank" rel="noopener noreferrer">
+          🤖 <span class="lang-content active lc-inline" data-lang="vi">Mở @funagency_ref_official_bot</span><span class="lang-content lc-inline" data-lang="ru">Открыть @funagency_ref_official_bot</span><span class="lang-content lc-inline" data-lang="en">Open @funagency_ref_official_bot</span>
         </a>
       </div>
     </div>
@@ -1365,7 +1365,7 @@
       <div class="flex flex-wrap gap-4 text-sm text-zinc-500 justify-center">
         <a href="https://t.me/funagency_pm" class="hover:text-orange-400" target="_blank" rel="noopener noreferrer">Manager</a>
         <a href="https://t.me/funagency_news" class="hover:text-orange-400" target="_blank" rel="noopener noreferrer">News</a>
-        <a href="https://t.me/funagency_bot" class="hover:text-orange-400" target="_blank" rel="noopener noreferrer">Bot</a>
+        <a href="https://t.me/funagency_ref_official_bot" class="hover:text-orange-400" target="_blank" rel="noopener noreferrer">Bot</a>
         <span class="text-zinc-700">·</span>
         <a href="/terms" class="hover:text-orange-400">
           <span class="lang-content active" data-lang="vi">Điều khoản</span>
@@ -1556,7 +1556,7 @@
     // Encode into Telegram start param (max 64 chars, A-Za-z0-9_-)
     // Format: lead_<personaCode>_<tg> — bot decodes and saves message to user notes
     const startParam = `lead_${code}_${tg}`.slice(0, 64).replace(/[^A-Za-z0-9_-]/g, '_');
-    const tgUrl = `https://t.me/funagency_bot?start=${startParam}`;
+    const tgUrl = `https://t.me/funagency_ref_official_bot?start=${startParam}`;
     window.open(tgUrl, '_blank', 'noopener,noreferrer');
 
     // Show success toast (lang-aware)
