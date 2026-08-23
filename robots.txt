@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Crawl-delay: 1
+
+User-agent: Yandex
+Allow: /
+Host: funref.com
+
+Sitemap: https://funref.com/sitemap.xml
