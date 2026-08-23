@@ -52,15 +52,15 @@
       "name": "FunAgency",
       "url": "https://funagency.com",
       "logo": "https://funagency.com/logo.png",
-      "sameAs": ["https://t.me/funagency", "https://t.me/nil_ad01", "https://t.me/funagency_ref_official_bot"]
+      "sameAs": ["https://t.me/funagency", "https://t.me/nil_ad01", "https://t.me/fun_referrer_bot"]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {"@type": "Question", "name": "When is first payout?", "acceptedAnswer": {"@type": "Answer", "text": "Each commission has 14-day anti-fraud hold, then enters Available balance. Withdraw anytime, min $50, TX within 24h."}},
-        {"@type": "Question", "name": "How to reach VIP (1.5%)?", "acceptedAnswer": {"@type": "Answer", "text": "10+ active refs simultaneously → auto-upgrade applies to ALL refs. Maintain: ≥7 active/month."}},
-        {"@type": "Question", "name": "Income cap?", "acceptedAnswer": {"@type": "Answer", "text": "No cap. Top referrers earn $14K+/month."}},
-        {"@type": "Question", "name": "Payout methods?", "acceptedAnswer": {"@type": "Answer", "text": "USDT TRC20/ERC20, Wire, Payoneer. Minimum $50. 14-day hold."}}
+        {"@type": "Question", "name": "When is first payout?", "acceptedAnswer": {"@type": "Answer", "text": "Each commission has a 14-day hold (anti-fraud), then enters Available balance. Request withdrawal anytime (min $20) — admin reviews before payout via USDT TRC20, TX hash recorded when completed."}},
+        {"@type": "Question", "name": "How do I reach VIP?", "acceptedAnswer": {"@type": "Answer", "text": "VIP status is reached at 15+ active referrals."}},
+        {"@type": "Question", "name": "Income cap?", "acceptedAnswer": {"@type": "Answer", "text": "No cap on commission earnings."}},
+        {"@type": "Question", "name": "Payout methods?", "acceptedAnswer": {"@type": "Answer", "text": "USDT TRC20. Minimum $20. $1 network fee. 14-day hold."}}
       ]
     }
   ]
@@ -134,20 +134,14 @@
     border-color: rgba(249, 115, 22, 0.3);
   }
 
+  .fee-option.selected {
+    background: rgba(249, 115, 22, 0.08);
+    border-color: rgba(249, 115, 22, 0.5);
+  }
+
   .step-number {
     background: linear-gradient(135deg, #f97316, #ea580c);
     -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-
-  .form-input {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: all 0.2s;
-  }
-  .form-input:focus {
-    background: rgba(255,255,255,0.08);
-    border-color: #f97316;
-    outline: none;
   }
 
   /* Safari: hide native details arrow (avoid double arrow) */
@@ -324,9 +318,9 @@
       </h1>
 
       <p class="text-xl md:text-2xl text-zinc-400 mb-10 leading-relaxed">
-        <span class="lang-content active" data-lang="vi">Không cần bán hàng · không trần thu nhập · 1 cấp đơn giản<br>Ref spend $20K/tháng → bạn nhận <span class="text-orange-400 font-semibold">$200/tháng vĩnh viễn</span><br><br>⚡ <span class="text-yellow-400 font-semibold">Đừng để network ngủ — agency khác tính khách 7-9% mỗi ngày</span></span>
-        <span class="lang-content" data-lang="ru">Без продаж · без потолка · 1 уровень<br>Реферал тратит $20K → ты получаешь <span class="text-orange-400 font-semibold">$200/мес лайфтайм</span></span>
-        <span class="lang-content" data-lang="en">No selling · no caps · 1 simple tier<br>Ref spends $20K → you earn <span class="text-orange-400 font-semibold">$200/mo lifetime</span></span>
+        <span class="lang-content active" data-lang="vi">Không cần bán hàng · không trần thu nhập · 1 cấp đơn giản<br>Ví dụ: ref spend $20K/tháng → hoa hồng ước tính <span class="text-orange-400 font-semibold">$200/tháng</span> (1% lifetime)<br><br>⚡ <span class="text-yellow-400 font-semibold">Đừng để network ngủ — agency khác tính khách 7-9% mỗi ngày</span></span>
+        <span class="lang-content" data-lang="ru">Без продаж · без потолка · 1 уровень<br>Пример: реферал тратит $20K → ориентировочная комиссия <span class="text-orange-400 font-semibold">$200/мес</span> (1% лайфтайм)</span>
+        <span class="lang-content" data-lang="en">No selling · no caps · 1 simple tier<br>Example: ref spends $20K → estimated commission <span class="text-orange-400 font-semibold">$200/mo</span> (1% lifetime)</span>
       </p>
 
       <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -538,9 +532,9 @@
         <span class="lang-content" data-lang="en">💰 CALCULATOR</span>
       </div>
       <h2 class="text-4xl md:text-5xl font-black mb-4">
-        <span class="lang-content active" data-lang="vi">3 tier · càng nhiều ref càng % cao</span>
-        <span class="lang-content" data-lang="ru">3 тира · больше рефов = выше %</span>
-        <span class="lang-content" data-lang="en">3 tiers · more refs = higher %</span>
+        <span class="lang-content active" data-lang="vi">3 cấp độ · theo dõi hành trình referral của bạn</span>
+        <span class="lang-content" data-lang="ru">3 уровня · отслеживай свой прогресс</span>
+        <span class="lang-content" data-lang="en">3 tiers · track your referral journey</span>
       </h2>
     </div>
 
@@ -548,20 +542,10 @@
       <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 card-hover">
         <div class="text-xs text-zinc-500 mb-1">TIER</div>
         <h3 class="text-2xl font-bold mb-1">🥉 Starter</h3>
-        <div class="text-xs text-zinc-500 mb-3">
-          <span class="lang-content active" data-lang="vi">0-2 ref active</span>
-          <span class="lang-content" data-lang="ru">0-2 активных</span>
-          <span class="lang-content" data-lang="en">0-2 active refs</span>
-        </div>
-        <div class="text-4xl font-black mono mb-2">0.5%</div>
-        <div class="text-xs text-zinc-500 mb-3">
-          <span class="lang-content active" data-lang="vi">lifetime spend</span>
-          <span class="lang-content" data-lang="ru">лайфтайм</span>
-          <span class="lang-content" data-lang="en">lifetime spend</span>
-        </div>
-        <div class="bg-black/40 rounded-lg p-3 text-sm mono">
-          <div class="text-zinc-500 text-xs">$20K spend:</div>
-          <div class="font-bold text-green-400">$100/mo</div>
+        <div class="text-xs text-zinc-500">
+          <span class="lang-content active" data-lang="vi">0-4 ref active</span>
+          <span class="lang-content" data-lang="ru">0-4 активных</span>
+          <span class="lang-content" data-lang="en">0-4 active refs</span>
         </div>
       </div>
 
@@ -571,40 +555,20 @@
         </div>
         <div class="text-xs text-orange-400 mb-1 mt-2">TIER</div>
         <h3 class="text-2xl font-bold mb-1">🥈 Growth</h3>
-        <div class="text-xs text-zinc-400 mb-3">
-          <span class="lang-content active" data-lang="vi">3-9 ref active</span>
-          <span class="lang-content" data-lang="ru">3-9 активных</span>
-          <span class="lang-content" data-lang="en">3-9 active refs</span>
-        </div>
-        <div class="text-4xl font-black mono mb-2 gradient-text">1.0%</div>
-        <div class="text-xs text-zinc-500 mb-3">
-          <span class="lang-content active" data-lang="vi">lifetime spend</span>
-          <span class="lang-content" data-lang="ru">лайфтайм</span>
-          <span class="lang-content" data-lang="en">lifetime spend</span>
-        </div>
-        <div class="bg-black/40 rounded-lg p-3 text-sm mono">
-          <div class="text-zinc-500 text-xs">$20K spend:</div>
-          <div class="font-bold text-orange-400">$200/mo</div>
+        <div class="text-xs text-zinc-400">
+          <span class="lang-content active" data-lang="vi">5-14 ref active</span>
+          <span class="lang-content" data-lang="ru">5-14 активных</span>
+          <span class="lang-content" data-lang="en">5-14 active refs</span>
         </div>
       </div>
 
       <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 card-hover">
         <div class="text-xs text-zinc-500 mb-1">TIER</div>
         <h3 class="text-2xl font-bold mb-1">🥇 VIP</h3>
-        <div class="text-xs text-zinc-500 mb-3">
-          <span class="lang-content active" data-lang="vi">10+ ref active</span>
-          <span class="lang-content" data-lang="ru">10+ активных</span>
-          <span class="lang-content" data-lang="en">10+ active refs</span>
-        </div>
-        <div class="text-4xl font-black mono mb-2">1.5%</div>
-        <div class="text-xs text-zinc-500 mb-3">
-          <span class="lang-content active" data-lang="vi">lifetime + perks VIP</span>
-          <span class="lang-content" data-lang="ru">лайфтайм + VIP</span>
-          <span class="lang-content" data-lang="en">lifetime + VIP perks</span>
-        </div>
-        <div class="bg-black/40 rounded-lg p-3 text-sm mono">
-          <div class="text-zinc-500 text-xs">$20K spend:</div>
-          <div class="font-bold text-green-400">$300/mo</div>
+        <div class="text-xs text-zinc-500">
+          <span class="lang-content active" data-lang="vi">15+ ref active</span>
+          <span class="lang-content" data-lang="ru">15+ активных</span>
+          <span class="lang-content" data-lang="en">15+ active refs</span>
         </div>
       </div>
     </div>
@@ -631,7 +595,7 @@
             <span>1</span><span>10</span><span>20+</span>
           </div>
           <div id="tierBadge" class="mt-2 inline-block text-xs font-bold px-2 py-1 rounded-full bg-orange-500/20 text-orange-300">
-            🥈 Growth · 1.0%
+            🥈 Growth
           </div>
         </div>
 
@@ -651,272 +615,135 @@
         </div>
       </div>
 
+      <div class="mb-6">
+        <div class="text-sm text-zinc-400 mb-2">
+          <span class="lang-content active" data-lang="vi">Phí dịch vụ của client được giới thiệu</span>
+          <span class="lang-content" data-lang="ru">Сервисная комиссия клиента</span>
+          <span class="lang-content" data-lang="en">Referred client's service fee</span>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Referred client's service fee">
+          <label class="fee-option selected persona-card rounded-xl p-4 flex items-start gap-3 cursor-pointer">
+            <input type="radio" name="clientFee" value="high" checked class="mt-1 accent-orange-500 shrink-0">
+            <span>
+              <span class="block font-bold text-sm">
+                <span class="lang-content active" data-lang="vi">Phí dịch vụ client ≥ 5%</span>
+                <span class="lang-content" data-lang="ru">Сервисная комиссия клиента ≥ 5%</span>
+                <span class="lang-content" data-lang="en">Client service fee ≥ 5%</span>
+              </span>
+              <span class="block text-xs text-orange-400 mt-1 font-semibold">
+                <span class="lang-content active" data-lang="vi">Hoa hồng 1.0%</span>
+                <span class="lang-content" data-lang="ru">Комиссия 1.0%</span>
+                <span class="lang-content" data-lang="en">1.0% commission</span>
+              </span>
+            </span>
+          </label>
+          <label class="fee-option persona-card rounded-xl p-4 flex items-start gap-3 cursor-pointer">
+            <input type="radio" name="clientFee" value="low" class="mt-1 accent-orange-500 shrink-0">
+            <span>
+              <span class="block font-bold text-sm">
+                <span class="lang-content active" data-lang="vi">Phí dịch vụ client &lt; 5%</span>
+                <span class="lang-content" data-lang="ru">Сервисная комиссия клиента &lt; 5%</span>
+                <span class="lang-content" data-lang="en">Client service fee &lt; 5%</span>
+              </span>
+              <span class="block text-xs text-orange-400 mt-1 font-semibold">
+                <span class="lang-content active" data-lang="vi">Hoa hồng 0.5%</span>
+                <span class="lang-content" data-lang="ru">Комиссия 0.5%</span>
+                <span class="lang-content" data-lang="en">0.5% commission</span>
+              </span>
+            </span>
+          </label>
+        </div>
+      </div>
+
       <div class="text-center pt-4 border-t border-white/10">
         <div id="calcResult" class="text-5xl md:text-6xl font-black gradient-text mono mb-2">$12,000</div>
         <div class="text-zinc-400 mb-2">
-          <span class="lang-content active" data-lang="vi">thu nhập thụ động năm 1</span>
-          <span class="lang-content" data-lang="ru">пассивного дохода год 1</span>
-          <span class="lang-content" data-lang="en">passive income year 1</span>
+          <span class="lang-content active" data-lang="vi">hoa hồng ước tính · năm 1</span>
+          <span class="lang-content" data-lang="ru">ориентировочная комиссия · год 1</span>
+          <span class="lang-content" data-lang="en">estimated commission · year 1</span>
         </div>
         <div id="calcBreakdown" class="text-sm mono text-zinc-500">
           5 × $20K × 1.0% = $1,000/mo × 12 = $12,000/year
         </div>
+        <p class="text-xs text-zinc-600 mt-3">
+          <span class="lang-content active" data-lang="vi">Chỉ là số liệu ước tính minh họa. Hoa hồng thực tế phụ thuộc vào hoạt động được ghi nhận của khách hàng và các quy tắc áp dụng.</span>
+          <span class="lang-content" data-lang="ru">Это только иллюстративная оценка. Реальная комиссия зависит от зафиксированной активности клиента и применимых правил.</span>
+          <span class="lang-content" data-lang="en">Illustrative estimate only. Actual commission depends on recorded client activity and applicable business rules.</span>
+        </p>
       </div>
     </div>
-
-    <!-- SPEED BONUS (DEVILS pattern) -->
-    <div class="mt-6 grid md:grid-cols-2 gap-4">
-      <div class="bg-gradient-to-br from-yellow-500/10 to-orange-500/5 border border-yellow-500/30 rounded-xl p-5">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="text-2xl">⚡</span>
-          <div class="text-xs font-bold text-yellow-400 tracking-wider">
-            <span class="lang-content active" data-lang="vi">SPEED BONUS</span>
-            <span class="lang-content" data-lang="ru">SPEED БОНУС</span>
-            <span class="lang-content" data-lang="en">SPEED BONUS</span>
-          </div>
-        </div>
-        <div class="text-2xl font-black mb-1">+$300</div>
-        <div class="text-sm text-zinc-400">
-          <span class="lang-content active" data-lang="vi">3 ref active trong 90 ngày đầu</span>
-          <span class="lang-content" data-lang="ru">3 актив рефа за 90 дней</span>
-          <span class="lang-content" data-lang="en">3 active refs in first 90 days</span>
-        </div>
-      </div>
-      <div class="bg-gradient-to-br from-orange-500/15 to-red-500/5 border border-orange-500/40 rounded-xl p-5 glow-orange">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="text-2xl">🚀</span>
-          <div class="text-xs font-bold text-orange-400 tracking-wider">
-            <span class="lang-content active" data-lang="vi">VOLUME BONUS</span>
-            <span class="lang-content" data-lang="ru">VOLUME БОНУС</span>
-            <span class="lang-content" data-lang="en">VOLUME BONUS</span>
-          </div>
-        </div>
-        <div class="text-2xl font-black mb-1 gradient-text">+$1,000</div>
-        <div class="text-sm text-zinc-400">
-          <span class="lang-content active" data-lang="vi">5 ref active trong 90 ngày · cash + revshare</span>
-          <span class="lang-content" data-lang="ru">5 актив рефов за 90 дней · кэш + ревшара</span>
-          <span class="lang-content" data-lang="en">5 active refs in 90 days · cash + revshare</span>
-        </div>
-      </div>
-    </div>
-
-    <p class="text-center mt-4 text-xs text-zinc-500">
-      <span class="lang-content active" data-lang="vi">⏱ Đếm từ ngày bạn đăng ký · Cộng dồn với 1% lifetime · Thanh toán 1 lần khi đạt</span>
-      <span class="lang-content" data-lang="ru">⏱ От даты регистрации · Поверх 1% лайфтайм · Разовая выплата при достижении</span>
-      <span class="lang-content" data-lang="en">⏱ From signup date · On top of 1% lifetime · One-time payout when hit</span>
-    </p>
   </div>
 </section>
 
 <div class="section-divider"></div>
 
+<!-- ========== COMMISSION RATE ========== -->
 <section class="py-20">
-  <div class="max-w-5xl mx-auto px-6">
+  <div class="max-w-4xl mx-auto px-6">
     <div class="text-center mb-12">
       <div class="text-sm text-orange-400 font-bold mb-2 tracking-wider">
-        <span class="lang-content active" data-lang="vi">🎯 KHÔNG CẦN BÁN HÀNG</span>
-        <span class="lang-content" data-lang="ru">🎯 БЕЗ ПРОДАЖ</span>
-        <span class="lang-content" data-lang="en">🎯 NO SELLING NEEDED</span>
+        <span class="lang-content active" data-lang="vi">💰 HOA HỒNG</span>
+        <span class="lang-content" data-lang="ru">💰 КОМИССИЯ</span>
+        <span class="lang-content" data-lang="en">💰 COMMISSION RATE</span>
       </div>
       <h2 class="text-4xl md:text-5xl font-black mb-4">
-        <span class="lang-content active" data-lang="vi">Chỉ cần <span class="gradient-text">show bảng này</span></span>
-        <span class="lang-content" data-lang="ru">Просто <span class="gradient-text">покажи таблицу</span></span>
-        <span class="lang-content" data-lang="en">Just <span class="gradient-text">show this table</span></span>
-      </h2>
-    </div>
-
-    <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl overflow-hidden">
-      <div class="grid grid-cols-3 text-center font-bold">
-        <div class="p-6 border-r border-zinc-800 bg-zinc-900">
-          <div class="text-zinc-500 text-xs">
-            <span class="lang-content active" data-lang="vi">REF SPEND</span>
-            <span class="lang-content" data-lang="ru">КЛИЕНТ ТРАТИТ</span>
-            <span class="lang-content" data-lang="en">CLIENT SPENDS</span>
-          </div>
-          <div class="mono text-xl mt-1">$100K/mo</div>
-        </div>
-        <div class="p-6 border-r border-zinc-800 bg-zinc-900/50">
-          <div class="text-red-400 text-xs">
-            <span class="lang-content active" data-lang="vi">AGENCY KHÁC</span>
-            <span class="lang-content" data-lang="ru">ДРУГИЕ АГЕНТСТВА</span>
-            <span class="lang-content" data-lang="en">OTHER AGENCIES</span>
-          </div>
-          <div class="mono text-xl mt-1 text-zinc-300">7-9%</div>
-        </div>
-        <div class="p-6" style="background: linear-gradient(135deg, rgba(249,115,22,0.15), rgba(234,88,12,0.05))">
-          <div class="text-orange-400 text-xs">FUNAGENCY</div>
-          <div class="mono text-xl mt-1 gradient-text">từ 4%</div>
-          <div class="text-[10px] text-zinc-500 mt-1">self / 4-7% referred</div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-3 text-center hover:bg-orange-500/5 transition">
-        <div class="p-5 border-r border-zinc-800 text-zinc-400 text-sm">
-          <span class="lang-content active" data-lang="vi">Phí / tháng</span>
-          <span class="lang-content" data-lang="ru">Комиссия / мес</span>
-          <span class="lang-content" data-lang="en">Commission / mo</span>
-        </div>
-        <div class="p-5 border-r border-zinc-800 mono text-red-400">$7,000</div>
-        <div class="p-5 mono text-green-400">$5,000</div>
-      </div>
-
-      <div class="grid grid-cols-3 text-center hover:bg-orange-500/5 transition">
-        <div class="p-5 border-r border-zinc-800 text-zinc-400 text-sm">
-          <span class="lang-content active" data-lang="vi">Mỗi năm</span>
-          <span class="lang-content" data-lang="ru">В год</span>
-          <span class="lang-content" data-lang="en">Per year</span>
-        </div>
-        <div class="p-5 border-r border-zinc-800 mono text-red-400">$84,000</div>
-        <div class="p-5 mono text-green-400">$60,000</div>
-      </div>
-
-      <div class="grid grid-cols-3 text-center bg-orange-500/10 font-bold">
-        <div class="p-5 border-r border-orange-500/30">
-          <div class="text-orange-300 text-sm">
-            <span class="lang-content active" data-lang="vi">💸 REF TIẾT KIỆM</span>
-            <span class="lang-content" data-lang="ru">💸 КЛИЕНТ ЭКОНОМИТ</span>
-            <span class="lang-content" data-lang="en">💸 CLIENT SAVES</span>
-          </div>
-        </div>
-        <div class="p-5 border-r border-orange-500/30 mono">
-          <div class="text-2xl gradient-text">$2,000</div>
-          <div class="text-xs text-zinc-500">/mo</div>
-        </div>
-        <div class="p-5 mono">
-          <div class="text-2xl gradient-text">$24,000</div>
-          <div class="text-xs text-zinc-500">/year</div>
-        </div>
-      </div>
-    </div>
-
-    <p class="text-center mt-8 text-lg text-zinc-400">
-      <span class="lang-content active" data-lang="vi">Không cần <span class="line-through">bán</span> — chỉ cần <span class="text-orange-400 font-semibold">share</span></span>
-      <span class="lang-content" data-lang="ru">Не <span class="line-through">продавать</span> — просто <span class="text-orange-400 font-semibold">поделись</span></span>
-      <span class="lang-content" data-lang="en">No <span class="line-through">sell</span> — just <span class="text-orange-400 font-semibold">share</span></span>
-    </p>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ========== CLIENT PRICING TIERS ========== -->
-<section class="py-20">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-12">
-      <div class="text-sm text-orange-400 font-bold mb-2 tracking-wider">
-        <span class="lang-content active" data-lang="vi">💼 KHÁCH TỰ CHỌN TIER</span>
-        <span class="lang-content" data-lang="ru">💼 КЛИЕНТ ВЫБИРАЕТ ТАРИФ</span>
-        <span class="lang-content" data-lang="en">💼 CLIENT SELF-PROPOSE TIER</span>
-      </div>
-      <h2 class="text-4xl md:text-5xl font-black mb-4">
-        <span class="lang-content active" data-lang="vi">2 track · <span class="gradient-text">khách tự chọn phí</span></span>
-        <span class="lang-content" data-lang="ru">2 трека · <span class="gradient-text">клиент сам выбирает</span></span>
-        <span class="lang-content" data-lang="en">2 tracks · <span class="gradient-text">client picks fee</span></span>
+        <span class="lang-content active" data-lang="vi">Hoa hồng <span class="gradient-text">rõ ràng, dễ hiểu</span></span>
+        <span class="lang-content" data-lang="ru">Простая и <span class="gradient-text">прозрачная комиссия</span></span>
+        <span class="lang-content" data-lang="en">Simple, <span class="gradient-text">transparent commission</span></span>
       </h2>
       <p class="text-zinc-400">
-        <span class="lang-content active" data-lang="vi">Khách tự kéo: 4% fixed · Khách qua ref: tự đề xuất 4-7% theo dịch vụ cần</span>
-        <span class="lang-content" data-lang="ru">Самостоятельно: 4% фикс · Через реф: 4-7% self-propose по услугам</span>
-        <span class="lang-content" data-lang="en">Self-acquired: 4% fixed · Referred: self-propose 4-7% by service tier</span>
+        <span class="lang-content active" data-lang="vi">Mức hoa hồng cơ bản phụ thuộc vào phí dịch vụ của khách hàng được giới thiệu</span>
+        <span class="lang-content" data-lang="ru">Базовая комиссия зависит от сервисной комиссии клиента, которого ты привёл</span>
+        <span class="lang-content" data-lang="en">Your base commission depends on the service fee of the referred client</span>
       </p>
     </div>
 
-    <!-- Self-acquired track -->
-    <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 mb-6">
-      <div class="flex items-start justify-between mb-2 flex-wrap gap-3">
-        <div>
-          <div class="text-xs text-zinc-500 mb-1">
-            <span class="lang-content active" data-lang="vi">TRACK 1 — KHÁCH TỰ KÉO</span>
-            <span class="lang-content" data-lang="ru">ТРЕК 1 — САМОСТОЯТЕЛЬНО</span>
-            <span class="lang-content" data-lang="en">TRACK 1 — SELF-ACQUIRED</span>
-          </div>
-          <h3 class="text-2xl font-bold">🔓 Standard 4% — Fixed</h3>
+    <div class="grid md:grid-cols-2 gap-4 mb-8">
+      <div class="persona-card rounded-2xl p-8 text-center">
+        <div class="text-xs text-zinc-500 font-bold tracking-wider mb-2">
+          <span class="lang-content active" data-lang="vi">PHÍ DỊCH VỤ KHÁCH HÀNG</span>
+          <span class="lang-content" data-lang="ru">СЕРВИСНАЯ КОМИССИЯ КЛИЕНТА</span>
+          <span class="lang-content" data-lang="en">CLIENT SERVICE FEE</span>
         </div>
-        <div class="bg-zinc-800 px-3 py-1 rounded-full text-xs text-zinc-400">
-          <span class="lang-content active" data-lang="vi">Đăng ký trực tiếp</span>
-          <span class="lang-content" data-lang="ru">Прямая регистрация</span>
-          <span class="lang-content" data-lang="en">Direct signup</span>
+        <div class="text-4xl font-black mono mb-3">≥ 5%</div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-600 mx-auto mb-3"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <div class="text-5xl font-black mono text-orange-400 mb-2">1.0%</div>
+        <div class="text-xs text-zinc-500 font-bold tracking-wider">
+          <span class="lang-content active" data-lang="vi">HOA HỒNG CƠ BẢN</span>
+          <span class="lang-content" data-lang="ru">БАЗОВАЯ КОМИССИЯ</span>
+          <span class="lang-content" data-lang="en">BASE COMMISSION</span>
         </div>
       </div>
-      <p class="text-sm text-zinc-400">
-        <span class="lang-content active" data-lang="vi">Self-serve · 24/7 chat · 60s replace · không thay đổi giá</span>
-        <span class="lang-content" data-lang="ru">Self-serve · 24/7 chat · 60s replace · фикс без торга</span>
-        <span class="lang-content" data-lang="en">Self-serve · 24/7 chat · 60s replace · no negotiation</span>
-      </p>
-    </div>
-
-    <!-- Referred track — 4 tiers -->
-    <div class="text-xs text-zinc-500 mb-2 text-center">
-      <span class="lang-content active" data-lang="vi">TRACK 2 — REFERRED · KHÁCH TỰ ĐỀ XUẤT THEO SERVICE LEVEL</span>
-      <span class="lang-content" data-lang="ru">ТРЕК 2 — REFERRED · КЛИЕНТ САМ ВЫБИРАЕТ УРОВЕНЬ</span>
-      <span class="lang-content" data-lang="en">TRACK 2 — REFERRED · CLIENT PICKS SERVICE LEVEL</span>
-    </div>
-    <div class="grid md:grid-cols-4 gap-3">
-      <div class="persona-card rounded-xl p-4">
-        <div class="text-3xl mb-1">🥉</div>
-        <div class="text-xs text-zinc-500">STANDARD</div>
-        <div class="text-3xl font-black mono">4%</div>
-        <ul class="text-xs text-zinc-400 mt-2 space-y-1">
-          <li>✓ 24/7 chat</li>
-          <li>✓ 60s replace</li>
-        </ul>
-      </div>
-      <div class="persona-card rounded-xl p-4">
-        <div class="text-3xl mb-1">🥈</div>
-        <div class="text-xs text-zinc-500">PRIORITY</div>
-        <div class="text-3xl font-black mono">5%</div>
-        <ul class="text-xs text-zinc-400 mt-2 space-y-1">
-          <li>✓ Standard</li>
-          <li>✓
-            <span class="lang-content active lc-inline" data-lang="vi">Manager riêng</span>
-            <span class="lang-content lc-inline" data-lang="ru">Личный менеджер</span>
-            <span class="lang-content lc-inline" data-lang="en">Dedicated manager</span>
-          </li>
-          <li>✓ Priority queue</li>
-        </ul>
-      </div>
-      <div class="gradient-border rounded-xl p-4 glow-orange">
-        <div class="text-3xl mb-1">🥇</div>
-        <div class="text-xs text-orange-400">PREMIUM</div>
-        <div class="text-3xl font-black mono gradient-text">6%</div>
-        <ul class="text-xs text-zinc-400 mt-2 space-y-1">
-          <li>✓ Priority</li>
-          <li>✓
-            <span class="lang-content active lc-inline" data-lang="vi">Creative review</span>
-            <span class="lang-content lc-inline" data-lang="ru">Проверка креативов</span>
-            <span class="lang-content lc-inline" data-lang="en">Creative review</span>
-          </li>
-          <li>✓
-            <span class="lang-content active lc-inline" data-lang="vi">Account warmup</span>
-            <span class="lang-content lc-inline" data-lang="ru">Прогрев аккаунтов</span>
-            <span class="lang-content lc-inline" data-lang="en">Account warmup</span>
-          </li>
-        </ul>
-      </div>
-      <div class="persona-card rounded-xl p-4">
-        <div class="text-3xl mb-1">💎</div>
-        <div class="text-xs text-zinc-500">WHITE GLOVE</div>
-        <div class="text-3xl font-black mono">7%</div>
-        <ul class="text-xs text-zinc-400 mt-2 space-y-1">
-          <li>✓ Premium</li>
-          <li>✓
-            <span class="lang-content active lc-inline" data-lang="vi">Custom geo</span>
-            <span class="lang-content lc-inline" data-lang="ru">Кастом гео</span>
-            <span class="lang-content lc-inline" data-lang="en">Custom geo</span>
-          </li>
-          <li>✓
-            <span class="lang-content active lc-inline" data-lang="vi">Strategy consult</span>
-            <span class="lang-content lc-inline" data-lang="ru">Стратегия 1-1</span>
-            <span class="lang-content lc-inline" data-lang="en">Strategy consult</span>
-          </li>
-        </ul>
+      <div class="persona-card rounded-2xl p-8 text-center">
+        <div class="text-xs text-zinc-500 font-bold tracking-wider mb-2">
+          <span class="lang-content active" data-lang="vi">PHÍ DỊCH VỤ KHÁCH HÀNG</span>
+          <span class="lang-content" data-lang="ru">СЕРВИСНАЯ КОМИССИЯ КЛИЕНТА</span>
+          <span class="lang-content" data-lang="en">CLIENT SERVICE FEE</span>
+        </div>
+        <div class="text-4xl font-black mono mb-3">&lt; 5%</div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-600 mx-auto mb-3"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        <div class="text-5xl font-black mono text-orange-400 mb-2">0.5%</div>
+        <div class="text-xs text-zinc-500 font-bold tracking-wider">
+          <span class="lang-content active" data-lang="vi">HOA HỒNG CƠ BẢN</span>
+          <span class="lang-content" data-lang="ru">БАЗОВАЯ КОМИССИЯ</span>
+          <span class="lang-content" data-lang="en">BASE COMMISSION</span>
+        </div>
       </div>
     </div>
 
-    <p class="text-center mt-6 text-sm text-zinc-400">
-      💰 <span class="lang-content active lc-inline" data-lang="vi"><b>Bạn (referrer)</b> luôn nhận <span class="text-orange-400 font-semibold">1% spend</span> bất kể khách chọn tier nào</span>
-      <span class="lang-content lc-inline" data-lang="ru"><b>Ты (реферер)</b> получаешь <span class="text-orange-400 font-semibold">1% от спенда</span> независимо от тарифа клиента</span>
-      <span class="lang-content lc-inline" data-lang="en"><b>You (referrer)</b> earn <span class="text-orange-400 font-semibold">1% of spend</span> regardless of client tier</span>
-    </p>
+    <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 text-center">
+      <div class="text-sm text-zinc-400 mono mb-2">
+        <span class="lang-content active" data-lang="vi">Khoản nạp của khách × Tỷ lệ hoa hồng = Hoa hồng của bạn</span>
+        <span class="lang-content" data-lang="ru">Депозит клиента × Ставка комиссии = Твоя комиссия</span>
+        <span class="lang-content" data-lang="en">Client deposit × Commission rate = Your commission</span>
+      </div>
+      <div class="text-2xl font-black mono gradient-text">$50,000 × 1.0% = $500</div>
+      <div class="text-xs text-zinc-500 mt-2">
+        <span class="lang-content active" data-lang="vi">Ví dụ minh hoạ</span>
+        <span class="lang-content" data-lang="ru">Пример</span>
+        <span class="lang-content" data-lang="en">Example</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1052,9 +879,9 @@
             <span class="lang-content" data-lang="en">Open Telegram bot</span>
           </h3>
           <p class="text-zinc-400">
-            <span class="lang-content active" data-lang="vi"><span class="text-orange-400 mono">@funagency_ref_official_bot</span> · 3 bước · 1 phút</span>
-            <span class="lang-content" data-lang="ru"><span class="text-orange-400 mono">@funagency_ref_official_bot</span> · 3 шага · 1 минута</span>
-            <span class="lang-content" data-lang="en"><span class="text-orange-400 mono">@funagency_ref_official_bot</span> · 3 steps · 1 min</span>
+            <span class="lang-content active" data-lang="vi"><span class="text-orange-400 mono">@fun_referrer_bot</span> · 3 bước · 1 phút</span>
+            <span class="lang-content" data-lang="ru"><span class="text-orange-400 mono">@fun_referrer_bot</span> · 3 шага · 1 минута</span>
+            <span class="lang-content" data-lang="en"><span class="text-orange-400 mono">@fun_referrer_bot</span> · 3 steps · 1 min</span>
           </p>
         </div>
       </div>
@@ -1067,11 +894,11 @@
             <span class="lang-content" data-lang="ru">Получи реф-ссылку</span>
             <span class="lang-content" data-lang="en">Get personal ref link</span>
           </h3>
-          <p class="text-zinc-400 mono text-sm break-all">https://t.me/funagency_ref_official_bot?start=ref_<span class="text-orange-400">&lt;telegram_id&gt;</span></p>
+          <p class="text-zinc-400 mono text-sm break-all">https://t.me/funagency_bot?start=ref_<span class="text-orange-400">ABC123</span></p>
           <p class="text-xs text-zinc-500 mt-2">
-            <span class="lang-content active" data-lang="vi">💡 Bot tự generate link với Telegram ID của bạn — không cần copy thủ công. Gõ <code class="bg-white/10 px-1 rounded">/link</code> trong bot.</span>
-            <span class="lang-content" data-lang="ru">💡 Бот авто-генерирует ссылку с твоим Telegram ID — копировать руками не нужно. Команда <code class="bg-white/10 px-1 rounded">/link</code>.</span>
-            <span class="lang-content" data-lang="en">💡 Bot auto-generates link with your Telegram ID — no manual copy. Just type <code class="bg-white/10 px-1 rounded">/link</code>.</span>
+            <span class="lang-content active" data-lang="vi">💡 Sau khi được duyệt, bot tự tạo link cá nhân này cho bạn — không cần copy thủ công. Gõ <code class="bg-white/10 px-1 rounded">/link</code> trong bot.</span>
+            <span class="lang-content" data-lang="ru">💡 После одобрения бот сам создаёт для тебя эту ссылку — копировать руками не нужно. Команда <code class="bg-white/10 px-1 rounded">/link</code>.</span>
+            <span class="lang-content" data-lang="en">💡 Once approved, the bot auto-generates this personal link for you — no manual copy. Just type <code class="bg-white/10 px-1 rounded">/link</code>.</span>
           </p>
         </div>
       </div>
@@ -1116,7 +943,7 @@
             <span class="lang-content" data-lang="ru">Получай <span class="gradient-text">1% лайфтайм</span></span>
             <span class="lang-content" data-lang="en">Earn <span class="gradient-text">1% lifetime</span></span>
           </h3>
-          <p class="text-zinc-400">USDT · Wire · Payoneer · min $50 · 14d hold anti-fraud</p>
+          <p class="text-zinc-400">USDT TRC20 · min $20 · $1 network fee · 14d hold anti-fraud</p>
         </div>
       </div>
     </div>
@@ -1210,82 +1037,6 @@
 
 <div class="section-divider"></div>
 
-<!-- ========== TESTIMONIALS ========== -->
-<section class="py-20">
-  <div class="max-w-5xl mx-auto px-6">
-    <div class="text-center mb-12">
-      <div class="text-sm text-orange-400 font-bold mb-2 tracking-wider">
-        <span class="lang-content active" data-lang="vi">💬 REFERRER NÓI GÌ</span>
-        <span class="lang-content" data-lang="ru">💬 ОТЗЫВЫ РЕФЕРЕРОВ</span>
-        <span class="lang-content" data-lang="en">💬 WHAT REFERRERS SAY</span>
-      </div>
-      <h2 class="text-4xl md:text-5xl font-black">
-        <span class="lang-content active" data-lang="vi">Top earner tháng trước</span>
-        <span class="lang-content" data-lang="ru">Топ-реферы прошлого мес</span>
-        <span class="lang-content" data-lang="en">Last month's top earners</span>
-      </h2>
-    </div>
-
-    <div class="grid md:grid-cols-3 gap-4">
-      <div class="persona-card rounded-2xl p-6 card-hover">
-        <div class="flex justify-between items-start mb-3">
-          <div>
-            <div class="text-2xl mb-1">🥇</div>
-            <div class="font-bold">@whale_***er</div>
-            <div class="text-xs text-zinc-500">VIP · 38 active refs</div>
-          </div>
-          <div class="text-2xl font-black gradient-text mono">$14,280</div>
-        </div>
-        <p class="text-sm text-zinc-400 italic">
-          <span class="lang-content active" data-lang="vi">"Network media buyer cũ giờ tự kiếm tiền cho tao. Share link vài lần là xong."</span>
-          <span class="lang-content" data-lang="ru">"Старая сеть медиабайеров сама зарабатывает мне. Поделился ссылкой пару раз."</span>
-          <span class="lang-content" data-lang="en">"Old media buyer network now earns for me. Shared link a few times, that's it."</span>
-        </p>
-      </div>
-
-      <div class="persona-card rounded-2xl p-6 card-hover">
-        <div class="flex justify-between items-start mb-3">
-          <div>
-            <div class="text-2xl mb-1">🥈</div>
-            <div class="font-bold">@kol_v***</div>
-            <div class="text-xs text-zinc-500">VIP · 29 active refs</div>
-          </div>
-          <div class="text-2xl font-black gradient-text mono">$9,850</div>
-        </div>
-        <p class="text-sm text-zinc-400 italic">
-          <span class="lang-content active" data-lang="vi">"3% margin save → khách dễ convert. Tao chỉ post 1 bài Telegram channel/tuần."</span>
-          <span class="lang-content" data-lang="ru">"3% разница → клиенты сами идут. Постю раз в неделю в Telegram."</span>
-          <span class="lang-content" data-lang="en">"3% margin save → clients self-convert. I post once a week in Telegram."</span>
-        </p>
-      </div>
-
-      <div class="persona-card rounded-2xl p-6 card-hover">
-        <div class="flex justify-between items-start mb-3">
-          <div>
-            <div class="text-2xl mb-1">🥉</div>
-            <div class="font-bold">@team_le***</div>
-            <div class="text-xs text-zinc-500">VIP · 22 active refs</div>
-          </div>
-          <div class="text-2xl font-black gradient-text mono">$7,120</div>
-        </div>
-        <p class="text-sm text-zinc-400 italic">
-          <span class="lang-content active" data-lang="vi">"Trước làm media buyer kiệt sức. Giờ network cũ tự nuôi tao $7K/tháng passive."</span>
-          <span class="lang-content" data-lang="ru">"Раньше выгорал в media buying. Теперь старая сеть кормит на $7K/мес пассивно."</span>
-          <span class="lang-content" data-lang="en">"Used to burnout media buying. Old network now passive $7K/mo for me."</span>
-        </p>
-      </div>
-    </div>
-
-    <div class="text-center mt-8 text-sm text-zinc-500">
-      <span class="lang-content active" data-lang="vi">📸 Screenshot payouts thật có thể request qua Manager</span>
-      <span class="lang-content" data-lang="ru">📸 Скриншоты выплат — по запросу у менеджера</span>
-      <span class="lang-content" data-lang="en">📸 Real payout screenshots available on request via Manager</span>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
 <section id="faq" class="py-20">
   <div class="max-w-3xl mx-auto px-6">
     <div class="text-center mb-12">
@@ -1295,96 +1046,162 @@
 
     <div class="space-y-3">
       <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
-        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center list-none">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
           <span>
-            <span class="lang-content active" data-lang="vi">Bao giờ nhận payout đầu tiên?</span>
-            <span class="lang-content" data-lang="ru">Когда первая выплата?</span>
-            <span class="lang-content" data-lang="en">When is first payout?</span>
+            <span class="lang-content active" data-lang="vi">Làm sao để trở thành Referrer?</span>
+            <span class="lang-content" data-lang="ru">Как стать Referrer?</span>
+            <span class="lang-content" data-lang="en">How do I become a Referrer?</span>
           </span>
-          <span class="text-orange-400 group-open:rotate-180 transition">▼</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="px-5 pb-5 text-zinc-400 text-sm">
-          <span class="lang-content active" data-lang="vi">Mỗi commission có <b>14 ngày hold</b> (anti-fraud). Sau đó vào balance Available, rút bất kỳ lúc nào · min $50 · TX gửi trong 24h.</span>
-          <span class="lang-content" data-lang="ru">Каждая комиссия имеет <b>14-дневный hold</b>. Затем в balance Available — выводи когда хочешь · мин $50 · TX в 24ч.</span>
-          <span class="lang-content" data-lang="en">Each commission has <b>14-day hold</b> (anti-fraud). Then enters Available balance — withdraw anytime · min $50 · TX within 24h.</span>
+          <span class="lang-content active" data-lang="vi">Đăng ký qua Telegram bot <a href="https://t.me/fun_referrer_bot" class="text-orange-400" target="_blank" rel="noopener noreferrer">@fun_referrer_bot</a>. Đơn đăng ký sẽ được xét duyệt trước khi bạn chính thức trở thành Referrer.</span>
+          <span class="lang-content" data-lang="ru">Подай заявку через Telegram-бота <a href="https://t.me/fun_referrer_bot" class="text-orange-400" target="_blank" rel="noopener noreferrer">@fun_referrer_bot</a>. Заявки проверяются перед одобрением.</span>
+          <span class="lang-content" data-lang="en">Apply through the FunAgency Referrer Telegram bot <a href="https://t.me/fun_referrer_bot" class="text-orange-400" target="_blank" rel="noopener noreferrer">@fun_referrer_bot</a>. Applications are reviewed before approval.</span>
         </div>
       </details>
 
       <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
-        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center list-none">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
           <span>
-            <span class="lang-content active" data-lang="vi">Làm sao lên VIP (1.5%)?</span>
-            <span class="lang-content" data-lang="ru">Как стать VIP?</span>
-            <span class="lang-content" data-lang="en">How to reach VIP?</span>
+            <span class="lang-content active" data-lang="vi">Tôi nhận được bao nhiêu hoa hồng?</span>
+            <span class="lang-content" data-lang="ru">Сколько комиссии я получаю?</span>
+            <span class="lang-content" data-lang="en">How much commission do I earn?</span>
           </span>
-          <span class="text-orange-400 group-open:rotate-180 transition">▼</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="px-5 pb-5 text-zinc-400 text-sm">
-          <span class="lang-content active" data-lang="vi">10+ ref active đồng thời → auto-upgrade. Áp dụng cho TẤT CẢ ref. Giữ VIP: ≥7 active/tháng.</span>
-          <span class="lang-content" data-lang="ru">10+ активных одновременно → auto-upgrade. На ВСЕХ. Удержание: ≥7/мес.</span>
-          <span class="lang-content" data-lang="en">10+ active simultaneously → auto-upgrade. Applies to ALL. Keep: ≥7/mo.</span>
+          <span class="lang-content active" data-lang="vi">Nếu phí dịch vụ của khách được giới thiệu <b>≥5%</b> → hoa hồng cơ bản <b>1.0%</b>. Nếu <b>&lt;5%</b> → hoa hồng cơ bản <b>0.5%</b>. Tier (Starter/Growth/VIP) không quyết định tỷ lệ hoa hồng cơ bản.</span>
+          <span class="lang-content" data-lang="ru">Если сервисная комиссия приведённого клиента <b>≥5%</b> → базовая комиссия <b>1.0%</b>. Если <b>&lt;5%</b> → <b>0.5%</b>. Tier (Starter/Growth/VIP) не определяет базовую ставку комиссии.</span>
+          <span class="lang-content" data-lang="en">If the referred client's service fee is <b>≥5%</b> → base commission <b>1.0%</b>. If <b>&lt;5%</b> → base commission <b>0.5%</b>. Referral Tier (Starter/Growth/VIP) does not determine the base commission rate.</span>
         </div>
       </details>
 
       <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
-        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center list-none">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
           <span>
-            <span class="lang-content active" data-lang="vi">Ref dừng chạy thì sao?</span>
-            <span class="lang-content" data-lang="ru">Что если клиент остановит трафик?</span>
-            <span class="lang-content" data-lang="en">If client stops traffic?</span>
+            <span class="lang-content active" data-lang="vi">Hoa hồng của tôi được tính như thế nào?</span>
+            <span class="lang-content" data-lang="ru">Как рассчитывается моя комиссия?</span>
+            <span class="lang-content" data-lang="en">How is my commission calculated?</span>
           </span>
-          <span class="text-orange-400 group-open:rotate-180 transition">▼</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="px-5 pb-5 text-zinc-400 text-sm">
-          <span class="lang-content active" data-lang="vi">Bạn nhận trong tháng ref active. Ref quay lại → bạn nhận lại. Lifetime — không hết hạn.</span>
-          <span class="lang-content" data-lang="ru">Получаешь только за активные месяцы. Возобновит — продолжишь.</span>
-          <span class="lang-content" data-lang="en">Earn only for active months. Resume → revshare resumes.</span>
+          <span class="lang-content active" data-lang="vi">Khoản nạp của khách × tỷ lệ hoa hồng áp dụng = hoa hồng của bạn. Ví dụ: $50,000 × 1.0% = $500.</span>
+          <span class="lang-content" data-lang="ru">Депозит клиента × применимая ставка комиссии = твоя комиссия. Пример: $50,000 × 1.0% = $500.</span>
+          <span class="lang-content" data-lang="en">Client deposit × applicable commission rate = your commission. Example: $50,000 × 1.0% = $500.</span>
         </div>
       </details>
 
       <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
-        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center list-none">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
           <span>
-            <span class="lang-content active" data-lang="vi">Tự ref chính mình được không?</span>
-            <span class="lang-content" data-lang="ru">Можно ли реферить себя?</span>
-            <span class="lang-content" data-lang="en">Can I refer myself?</span>
+            <span class="lang-content active" data-lang="vi">Starter, Growth và VIP là gì?</span>
+            <span class="lang-content" data-lang="ru">Что такое Starter, Growth и VIP?</span>
+            <span class="lang-content" data-lang="en">What are Starter, Growth and VIP?</span>
           </span>
-          <span class="text-orange-400 group-open:rotate-180 transition">▼</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="px-5 pb-5 text-zinc-400 text-sm">
-          <span class="lang-content active" data-lang="vi">Không. Self-ref → ban + claw-back tất cả hoa hồng.</span>
-          <span class="lang-content" data-lang="ru">Нет. Self-ref → бан + claw-back.</span>
-          <span class="lang-content" data-lang="en">No. Self-ref → ban + claw-back.</span>
+          <span class="lang-content active" data-lang="vi">Đây là các cấp độ tiến trình/status của Referrer dựa trên số ref active: Starter 0-4, Growth 5-14, VIP 15+. Các cấp độ này <b>không</b> tự động quyết định tỷ lệ hoa hồng cơ bản.</span>
+          <span class="lang-content" data-lang="ru">Это уровни статуса/прогресса Referrer по числу активных рефералов: Starter 0-4, Growth 5-14, VIP 15+. Они <b>не</b> определяют автоматически базовую ставку комиссии.</span>
+          <span class="lang-content" data-lang="en">These are referral progression/status levels based on active referrals: Starter 0-4, Growth 5-14, VIP 15+. They do <b>not</b> automatically determine the base commission rate.</span>
         </div>
       </details>
 
       <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
-        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center list-none">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
           <span>
-            <span class="lang-content active" data-lang="vi">Phương thức nhận tiền?</span>
-            <span class="lang-content" data-lang="ru">Способы выплаты?</span>
-            <span class="lang-content" data-lang="en">Payout methods?</span>
+            <span class="lang-content active" data-lang="vi">Khi nào hoa hồng của tôi khả dụng để rút?</span>
+            <span class="lang-content" data-lang="ru">Когда моя комиссия становится доступной?</span>
+            <span class="lang-content" data-lang="en">When does my commission become available?</span>
           </span>
-          <span class="text-orange-400 group-open:rotate-180 transition">▼</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="px-5 pb-5 text-zinc-400 text-sm">
-          USDT TRC20/ERC20 · Wire · Payoneer · min $50 · 14d hold
+          <span class="lang-content active" data-lang="vi">Commission được ghi nhận sẽ trải qua <b>14 ngày hold</b> trước khi chuyển vào balance Available để rút.</span>
+          <span class="lang-content" data-lang="ru">Зафиксированная комиссия проходит <b>14-дневный hold</b>, прежде чем становится доступной для вывода.</span>
+          <span class="lang-content" data-lang="en">Recorded commission goes through the applicable <b>14-day hold</b> before becoming available for withdrawal.</span>
         </div>
       </details>
 
       <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
-        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center list-none">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
           <span>
-            <span class="lang-content active" data-lang="vi">Có giới hạn thu nhập không?</span>
-            <span class="lang-content" data-lang="ru">Есть ли cap?</span>
-            <span class="lang-content" data-lang="en">Income cap?</span>
+            <span class="lang-content active" data-lang="vi">Mức rút tối thiểu là bao nhiêu?</span>
+            <span class="lang-content" data-lang="ru">Какая минимальная сумма вывода?</span>
+            <span class="lang-content" data-lang="en">What is the minimum withdrawal?</span>
           </span>
-          <span class="text-orange-400 group-open:rotate-180 transition">▼</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
         </summary>
         <div class="px-5 pb-5 text-zinc-400 text-sm">
-          <span class="lang-content active" data-lang="vi">Không cap. Top ref nhận $14K+/tháng.</span>
-          <span class="lang-content" data-lang="ru">Нет. Топ — $14K+/мес.</span>
-          <span class="lang-content" data-lang="en">No. Top earns $14K+/mo.</span>
+          <span class="lang-content active" data-lang="vi">Tối thiểu $20 mỗi lần rút.</span>
+          <span class="lang-content" data-lang="ru">Минимум $20 за вывод.</span>
+          <span class="lang-content" data-lang="en">$20 minimum withdrawal.</span>
+        </div>
+      </details>
+
+      <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
+          <span>
+            <span class="lang-content active" data-lang="vi">Rút tiền được thanh toán như thế nào?</span>
+            <span class="lang-content" data-lang="ru">Как выплачиваются выводы?</span>
+            <span class="lang-content" data-lang="en">How are withdrawals paid?</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="px-5 pb-5 text-zinc-400 text-sm">
+          <span class="lang-content active" data-lang="vi">Thanh toán qua <b>USDT TRC20</b>. Phí mạng $1. Yêu cầu rút được admin duyệt trước khi thanh toán. TX hash được lưu khi giao dịch hoàn tất.</span>
+          <span class="lang-content" data-lang="ru">Выплаты через <b>USDT TRC20</b>. Сетевая комиссия $1. Заявка на вывод проверяется admin перед выплатой. TX hash сохраняется после завершения транзакции.</span>
+          <span class="lang-content" data-lang="en">Withdrawals are paid using <b>USDT TRC20</b>. Network fee: $1. Withdrawal requests are reviewed before payout. A TX hash is recorded when the transaction is completed.</span>
+        </div>
+      </details>
+
+      <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
+          <span>
+            <span class="lang-content active" data-lang="vi">Link giới thiệu hoạt động như thế nào?</span>
+            <span class="lang-content" data-lang="ru">Как работает реферальная ссылка?</span>
+            <span class="lang-content" data-lang="en">How do referral links work?</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="px-5 pb-5 text-zinc-400 text-sm">
+          <span class="lang-content active" data-lang="vi">Sau khi được duyệt, Referrer nhận được link giới thiệu riêng của mình. Chia sẻ link này cho khách hàng tiềm năng — hoạt động của khách sau đó sẽ được ghi nhận/gắn với Referrer.</span>
+          <span class="lang-content" data-lang="ru">После одобрения Referrer получает доступ к своей уникальной реферальной ссылке. Делись ею с потенциальными клиентами — их активность будет привязана к тебе.</span>
+          <span class="lang-content" data-lang="en">After approval, the Referrer receives access to their unique referral link. Share this link with potential clients — referred activity can then be attributed/tracked to the Referrer.</span>
+        </div>
+      </details>
+
+      <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
+          <span>
+            <span class="lang-content active" data-lang="vi">Tôi có thể theo dõi ref và hoa hồng của mình không?</span>
+            <span class="lang-content" data-lang="ru">Могу ли я отслеживать своих рефералов и комиссию?</span>
+            <span class="lang-content" data-lang="en">Can I track my referrals and commission?</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="px-5 pb-5 text-zinc-400 text-sm">
+          <span class="lang-content active" data-lang="vi">Có. Bạn có thể theo dõi hoạt động của khách được giới thiệu, trạng thái hoa hồng, balance khả dụng và lịch sử rút tiền (khi áp dụng).</span>
+          <span class="lang-content" data-lang="ru">Да. Ты можешь отслеживать активность приведённых клиентов, статус комиссии, доступный баланс и историю выводов (где это применимо).</span>
+          <span class="lang-content" data-lang="en">Yes. You get visibility into referred client activity, commission status, available balance, and withdrawal history where applicable.</span>
+        </div>
+      </details>
+
+      <details class="bg-zinc-900/50 border border-zinc-800 rounded-xl overflow-hidden group">
+        <summary class="cursor-pointer p-5 font-semibold flex justify-between items-center gap-4 list-none">
+          <span>
+            <span class="lang-content active" data-lang="vi">Hoa hồng hiển thị trong calculator có được đảm bảo không?</span>
+            <span class="lang-content" data-lang="ru">Гарантирована ли комиссия, показанная в калькуляторе?</span>
+            <span class="lang-content" data-lang="en">Is the commission shown in the calculator guaranteed?</span>
+          </span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-orange-400 shrink-0 group-open:rotate-180 transition"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="px-5 pb-5 text-zinc-400 text-sm">
+          <span class="lang-content active" data-lang="vi">Không. Calculator chỉ là số liệu ước tính minh họa. Hoa hồng thực tế phụ thuộc vào hoạt động được ghi nhận của khách hàng và các quy tắc áp dụng.</span>
+          <span class="lang-content" data-lang="ru">Нет. Калькулятор — это только иллюстративная оценка. Реальная комиссия зависит от зафиксированной активности клиента и применимых правил.</span>
+          <span class="lang-content" data-lang="en">No. The calculator is an illustrative estimate. Actual commission depends on recorded client activity and applicable business rules.</span>
         </div>
       </details>
     </div>
@@ -1394,129 +1211,25 @@
 <div class="section-divider"></div>
 
 <section id="cta" class="py-24">
-  <div class="max-w-3xl mx-auto px-6">
-    <div class="text-center mb-12">
-      <div class="text-sm text-orange-400 font-bold mb-2 tracking-wider">
-        <span class="lang-content active" data-lang="vi">🚀 BẮT ĐẦU NÀO</span>
-        <span class="lang-content" data-lang="ru">🚀 ПОРА НАЧИНАТЬ</span>
-        <span class="lang-content" data-lang="en">🚀 LET'S GO</span>
-      </div>
-      <h2 class="text-4xl md:text-5xl font-black mb-4">
-        <span class="lang-content active" data-lang="vi">Sẵn sàng kiếm tiền từ network?</span>
-        <span class="lang-content" data-lang="ru">Готов зарабатывать?</span>
-        <span class="lang-content" data-lang="en">Ready to earn?</span>
-      </h2>
+  <div class="max-w-2xl mx-auto px-6 text-center">
+    <div class="text-sm text-orange-400 font-bold mb-4 tracking-wider">
+      <span class="lang-content active" data-lang="vi">🚀 SẴN SÀNG ĐĂNG KÝ?</span>
+      <span class="lang-content" data-lang="ru">🚀 ГОТОВ ПОДАТЬ ЗАЯВКУ?</span>
+      <span class="lang-content" data-lang="en">🚀 READY TO APPLY?</span>
     </div>
-
-    <div class="grid md:grid-cols-2 gap-6">
-      <div class="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6">
-        <div class="text-xs text-zinc-500 mb-3">⚡
-          <span class="lang-content active lc-inline" data-lang="vi">ĐĂNG KÝ NHANH</span>
-          <span class="lang-content lc-inline" data-lang="ru">БЫСТРАЯ ЗАЯВКА</span>
-          <span class="lang-content lc-inline" data-lang="en">QUICK APPLY</span>
-        </div>
-        <h3 class="text-xl font-bold mb-4">
-          <span class="lang-content active" data-lang="vi">Manager liên hệ trong 2 giờ</span>
-          <span class="lang-content" data-lang="ru">Менеджер свяжется за 2ч</span>
-          <span class="lang-content" data-lang="en">Manager contacts within 2h</span>
-        </h3>
-        <form id="leadForm" class="space-y-3">
-          <div>
-            <label for="telegramInput" class="block text-xs text-zinc-500 mb-1">
-              <span class="lang-content active" data-lang="vi">Telegram username *</span>
-              <span class="lang-content" data-lang="ru">Telegram username *</span>
-              <span class="lang-content" data-lang="en">Telegram username *</span>
-            </label>
-            <input type="text" name="telegram" id="telegramInput" placeholder="@username" class="form-input w-full px-4 py-3 rounded-lg text-sm" pattern="@?[A-Za-z][A-Za-z0-9_]{4,31}" title="Telegram username: 5-32 chars, starts with letter" required>
-          </div>
-          <div>
-            <label for="personaInput" class="block text-xs text-zinc-500 mb-1">
-              <span class="lang-content active" data-lang="vi">Vai trò *</span>
-              <span class="lang-content" data-lang="ru">Роль *</span>
-              <span class="lang-content" data-lang="en">Role *</span>
-            </label>
-            <select name="persona" id="personaInput" class="form-input w-full px-4 py-3 rounded-lg text-sm" required>
-              <option value="" data-i18n-vi="— Bạn là ai? —" data-i18n-ru="— Кто ты? —" data-i18n-en="— Who are you? —">— Bạn là ai? —</option>
-              <option>Media buyer / Team lead</option>
-              <option>Blogger / KOL</option>
-              <option>Consultant</option>
-              <option>Agency</option>
-              <option>Ex-media buyer</option>
-              <option>Community manager</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div>
-            <label for="msgInput" class="block text-xs text-zinc-500 mb-1">
-              <span class="lang-content active" data-lang="vi">Network của bạn</span>
-              <span class="lang-content" data-lang="ru">Твоя сеть</span>
-              <span class="lang-content" data-lang="en">Your network</span>
-            </label>
-            <textarea name="message" id="msgInput" rows="2" class="form-input w-full px-4 py-3 rounded-lg text-sm"
-              data-i18n-vi-placeholder="Quy mô, vertical, geo… (optional)"
-              data-i18n-ru-placeholder="Размер, вертикаль, гео… (optional)"
-              data-i18n-en-placeholder="Size, vertical, geo… (optional)"
-              placeholder="Quy mô, vertical, geo… (optional)"></textarea>
-          </div>
-          <button type="submit" class="gradient-orange w-full py-3 rounded-lg font-bold hover:scale-[1.02] transition">
-            📩 <span class="lang-content active lc-inline" data-lang="vi">Gửi đăng ký</span><span class="lang-content lc-inline" data-lang="ru">Отправить</span><span class="lang-content lc-inline" data-lang="en">Submit</span>
-          </button>
-          <p class="text-xs text-zinc-500 text-center mt-2">
-            <span class="lang-content active" data-lang="vi">Hoặc mở bot trực tiếp →</span>
-            <span class="lang-content" data-lang="ru">Или открой бот напрямую →</span>
-            <span class="lang-content" data-lang="en">Or open bot directly →</span>
-            <a href="https://t.me/funagency_ref_official_bot" class="text-orange-400" target="_blank" rel="noopener noreferrer">@funagency_ref_official_bot</a>
-          </p>
-        </form>
-      </div>
-
-      <div class="gradient-border rounded-2xl p-6 flex flex-col">
-        <div class="text-xs text-orange-400 mb-3">🔥
-          <span class="lang-content active lc-inline" data-lang="vi">START NGAY</span>
-          <span class="lang-content lc-inline" data-lang="ru">МГНОВЕННЫЙ СТАРТ</span>
-          <span class="lang-content lc-inline" data-lang="en">INSTANT START</span>
-        </div>
-        <h3 class="text-xl font-bold mb-4">
-          <span class="lang-content active" data-lang="vi">Mở bot → 3 bước → có link ref</span>
-          <span class="lang-content" data-lang="ru">Открой бот → 3 шага → ссылка</span>
-          <span class="lang-content" data-lang="en">Open bot → 3 steps → ref link</span>
-        </h3>
-        <ul class="text-sm text-zinc-400 space-y-2 mb-6 flex-1">
-          <li class="flex gap-2"><span class="text-green-400">✓</span>
-            <span class="lang-content active" data-lang="vi">Auto-generate link</span>
-            <span class="lang-content" data-lang="ru">Авто-генерация</span>
-            <span class="lang-content" data-lang="en">Auto-generate</span>
-          </li>
-          <li class="flex gap-2"><span class="text-green-400">✓</span>
-            <span class="lang-content active" data-lang="vi">Realtime stats trong MiniApp</span>
-            <span class="lang-content" data-lang="ru">Статистика в MiniApp</span>
-            <span class="lang-content" data-lang="en">Realtime stats in MiniApp</span>
-          </li>
-          <li class="flex gap-2"><span class="text-green-400">✓</span>
-            <span class="lang-content active" data-lang="vi">Rút tiền 1-click</span>
-            <span class="lang-content" data-lang="ru">Вывод в 1 клик</span>
-            <span class="lang-content" data-lang="en">1-click withdraw</span>
-          </li>
-          <li class="flex gap-2"><span class="text-green-400">✓</span>
-            <span class="lang-content active" data-lang="vi">Notify khi có conversion</span>
-            <span class="lang-content" data-lang="ru">Уведомления конверсий</span>
-            <span class="lang-content" data-lang="en">Conversion notifications</span>
-          </li>
-        </ul>
-        <a href="https://t.me/funagency_ref_official_bot" class="gradient-orange py-3 rounded-lg font-bold text-center hover:scale-[1.02] transition" target="_blank" rel="noopener noreferrer">
-          🤖 <span class="lang-content active lc-inline" data-lang="vi">Mở @funagency_ref_official_bot</span><span class="lang-content lc-inline" data-lang="ru">Открыть @funagency_ref_official_bot</span><span class="lang-content lc-inline" data-lang="en">Open @funagency_ref_official_bot</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="text-center mt-8">
-      <p class="text-zinc-500 text-sm mb-3">
-        <span class="lang-content active" data-lang="vi">Chưa sẵn sàng? Theo dõi kênh</span>
-        <span class="lang-content" data-lang="ru">Подпишись на канал</span>
-        <span class="lang-content" data-lang="en">Follow the channel</span>
-      </p>
-      <a href="https://t.me/funagency" class="text-orange-400 hover:text-orange-300 text-sm" target="_blank" rel="noopener noreferrer">📢 @funagency →</a>
-    </div>
+    <h2 class="text-4xl md:text-5xl font-black mb-6 leading-tight">
+      <span class="lang-content active" data-lang="vi">Trở thành <span class="gradient-text">Referrer</span><br>của FunAgency</span>
+      <span class="lang-content" data-lang="ru">Стань <span class="gradient-text">Referrer</span><br>FunAgency</span>
+      <span class="lang-content" data-lang="en">Become a <span class="gradient-text">FunAgency</span><br>Referrer</span>
+    </h2>
+    <p class="text-lg text-zinc-400 mb-10 leading-relaxed">
+      <span class="lang-content active" data-lang="vi">Yêu cầu quyền truy cập qua Telegram Bot của FunAgency.<br>Đơn đăng ký sẽ được FunAgency xét duyệt, việc duyệt không tự động.</span>
+      <span class="lang-content" data-lang="ru">Запроси доступ через Telegram-бота FunAgency.<br>Заявки рассматриваются FunAgency вручную, одобрение не автоматическое.</span>
+      <span class="lang-content" data-lang="en">Request access through the FunAgency Telegram Bot.<br>Applications are reviewed by FunAgency, and approval is not automatic.</span>
+    </p>
+    <a href="https://t.me/fun_referrer_bot" class="inline-block gradient-orange px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition glow-orange" target="_blank" rel="noopener noreferrer">
+      🤖 <span class="lang-content active lc-inline" data-lang="vi">Trở thành Referrer</span><span class="lang-content lc-inline" data-lang="ru">Стать Referrer</span><span class="lang-content lc-inline" data-lang="en">Become a Referrer</span>
+    </a>
   </div>
 </section>
 
@@ -1531,7 +1244,7 @@
       <div class="flex flex-wrap gap-4 text-sm text-zinc-500 justify-center">
         <a href="https://t.me/nil_ad01" class="hover:text-orange-400" target="_blank" rel="noopener noreferrer">Manager</a>
         <a href="https://t.me/funagency" class="hover:text-orange-400" target="_blank" rel="noopener noreferrer">News</a>
-        <a href="https://t.me/funagency_ref_official_bot" class="hover:text-orange-400" target="_blank" rel="noopener noreferrer">Bot</a>
+        <a href="https://t.me/fun_referrer_bot" class="hover:text-orange-400" target="_blank" rel="noopener noreferrer">Bot</a>
         <span class="text-zinc-700">·</span>
         <a href="/terms" class="hover:text-orange-400">
           <span class="lang-content active" data-lang="vi">Điều khoản</span>
@@ -1559,7 +1272,6 @@
   // ============ LANG SWITCHER + LOCALSTORAGE PERSIST ============
   const langBtns = document.querySelectorAll('.lang-btn');
   const langContents = document.querySelectorAll('.lang-content');
-  const i18nFields = document.querySelectorAll('[data-i18n-vi], [data-i18n-vi-placeholder]');
 
   // Lang-aware meta data for SEO + browser tab
   const META = {
@@ -1586,12 +1298,6 @@
       b.setAttribute('aria-pressed', on);
     });
     langContents.forEach(c => c.classList.toggle('active', c.dataset.lang === lang));
-    i18nFields.forEach(el => {
-      const txt = el.getAttribute(`data-i18n-${lang}`);
-      const ph = el.getAttribute(`data-i18n-${lang}-placeholder`);
-      if (txt) el.textContent = txt;
-      if (ph) el.placeholder = ph;
-    });
     document.documentElement.lang = lang;
     // Update title + meta description for SEO + browser tab
     const meta = META[lang];
@@ -1637,16 +1343,29 @@
   // ============ INTERACTIVE CALCULATOR ============
   const refCount = document.getElementById('refCount');
   const spendPerRef = document.getElementById('spendPerRef');
+  const clientFeeInputs = document.querySelectorAll('input[name="clientFee"]');
   const refCountVal = document.getElementById('refCountVal');
   const spendVal = document.getElementById('spendVal');
   const tierBadge = document.getElementById('tierBadge');
   const calcResult = document.getElementById('calcResult');
   const calcBreakdown = document.getElementById('calcBreakdown');
 
+  // Tier reflects referrer status/progression only — it does NOT set the commission rate.
   function getTier(n) {
-    if (n <= 2) return { name: '🥉 Starter', rate: 0.005, label: '0.5%' };
-    if (n <= 9) return { name: '🥈 Growth',  rate: 0.010, label: '1.0%' };
-    return { name: '🥇 VIP', rate: 0.015, label: '1.5%' };
+    if (n <= 4) return { name: '🥉 Starter' };
+    if (n <= 14) return { name: '🥈 Growth' };
+    return { name: '🥇 VIP' };
+  }
+  // Base commission rate depends on the REFERRED CLIENT's service fee, not the referrer's tier.
+  function getRate() {
+    const checked = document.querySelector('input[name="clientFee"]:checked');
+    const highFee = checked ? checked.value === 'high' : true;
+    return highFee ? { rate: 0.010, label: '1.0%' } : { rate: 0.005, label: '0.5%' };
+  }
+  function syncFeeSelection() {
+    clientFeeInputs.forEach(input => {
+      input.closest('.fee-option')?.classList.toggle('selected', input.checked);
+    });
   }
   // Locale-aware number formatting (RU uses spaces, VI/EN use commas)
   const LOCALE_MAP = { vi: 'vi-VN', ru: 'ru-RU', en: 'en-US' };
@@ -1660,17 +1379,24 @@
     const spendK = parseInt(spendPerRef.value, 10);
     const spend = spendK * 1000;
     const tier = getTier(n);
-    const monthly = Math.round(n * spend * tier.rate);
+    const { rate, label } = getRate();
+    const monthly = Math.round(n * spend * rate);
     const yearly = monthly * 12;
 
     refCountVal.textContent = n >= 20 ? '20+' : n;
     spendVal.textContent = '$' + spendK + 'K';
-    tierBadge.textContent = tier.name + ' · ' + tier.label;
+    tierBadge.textContent = tier.name;
     calcResult.textContent = fmt(yearly);
-    calcBreakdown.textContent = `${n} × $${spendK}K × ${tier.label} = ${fmt(monthly)}/mo × 12 = ${fmt(yearly)}/year`;
+    calcBreakdown.textContent = `${n} × $${spendK}K × ${label} = ${fmt(monthly)}/mo × 12 = ${fmt(yearly)}/year`;
   }
   refCount?.addEventListener('input', updateCalc);
   spendPerRef?.addEventListener('input', updateCalc);
+  clientFeeInputs.forEach(input => input.addEventListener('change', () => {
+    syncFeeSelection();
+    updateCalc();
+  }));
+  syncFeeSelection();
+  updateCalc();
 
   // ============ COOKIE CONSENT BANNER ============
   const cookieBanner = document.getElementById('cookieBanner');
@@ -1683,62 +1409,6 @@
   cookieAccept?.addEventListener('click', () => {
     try { localStorage.setItem('funagency_cookies_ok', '1'); } catch (e) {}
     cookieBanner?.classList.add('hidden');
-  });
-
-  // ============ FORM SUBMIT → TELEGRAM DEEPLINK ============
-  // Map persona to short code (fits Telegram 64-char start param limit)
-  const personaCode = {
-    'Media buyer / Team lead': 'mb',
-    'Blogger / KOL': 'bk',
-    'Consultant': 'co',
-    'Agency': 'ag',
-    'Ex-media buyer': 'ex',
-    'Community manager': 'cm',
-    'Other': 'ot',
-  };
-
-  const toastMsg = {
-    vi: '✅ Đang mở Telegram bot…',
-    ru: '✅ Открываем Telegram bot…',
-    en: '✅ Opening Telegram bot…',
-  };
-
-  const leadForm = document.getElementById('leadForm');
-  let isSubmitting = false;
-  leadForm?.addEventListener('submit', e => {
-    e.preventDefault();
-    if (isSubmitting) return;                       // prevent double-submit
-    isSubmitting = true;
-
-    const submitBtn = leadForm.querySelector('button[type="submit"]');
-    const origLabel = submitBtn?.innerHTML;
-    if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = '0.6'; }
-
-    const fd = new FormData(leadForm);
-    const tg = (fd.get('telegram') || '').toString().trim().replace(/^@/, '');
-    const persona = (fd.get('persona') || '').toString().trim();
-    const code = personaCode[persona] || 'ot';
-
-    // Encode into Telegram start param (max 64 chars, A-Za-z0-9_-)
-    // Format: lead_<personaCode>_<tg> — bot decodes and saves message to user notes
-    const startParam = `lead_${code}_${tg}`.slice(0, 64).replace(/[^A-Za-z0-9_-]/g, '_');
-    const tgUrl = `https://t.me/funagency_ref_official_bot?start=${startParam}`;
-    window.open(tgUrl, '_blank', 'noopener,noreferrer');
-
-    // Show success toast (lang-aware)
-    const lang = document.documentElement.lang || 'vi';
-    const toast = document.createElement('div');
-    toast.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] bg-green-500 text-white px-6 py-4 rounded-xl font-bold shadow-2xl';
-    toast.textContent = toastMsg[lang] || toastMsg.vi;
-    document.body.appendChild(toast);
-
-    // Reset form + restore submit button after 3s
-    setTimeout(() => {
-      toast.remove();
-      leadForm.reset();
-      if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = ''; }
-      isSubmitting = false;
-    }, 3000);
   });
 </script>
 
