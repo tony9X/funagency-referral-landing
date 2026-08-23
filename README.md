@@ -1,78 +1,84 @@
 # FunAgency Referral — Landing Page
 
-Production-ready landing page cho chương trình giới thiệu FunAgency (1% lifetime, 3-tier 0.5/1.0/1.5%).
+Landing page for the FunAgency referral program. Live at **https://funref.com**.
 
-## 🌐 Demo
-
-Mở `index.html` trong browser, hoặc deploy lên Cloudflare Pages / Vercel / Netlify.
-
-```bash
-# Local preview
-python3 -m http.server 8000
-# → http://localhost:8000
-```
-
-## 📁 Cấu trúc
+## Structure
 
 ```
 .
-├── index.html      # Single-file landing (1580 dòng / 85 KB)
-└── README.md       # File này
+├── index.html      # Single-file landing (~1.3k lines)
+├── terms.html      # Referral program terms (EN + RU)
+├── privacy.html    # Privacy policy — GDPR + 152-FZ (EN + RU)
+├── og-cover.png    # 1200×630 social share image
+├── robots.txt
+├── sitemap.xml
+└── vercel.json     # cleanUrls + security headers
 ```
 
-Single-file HTML + Tailwind CDN + Inter/JetBrains Mono Google Fonts. Không build step.
-
-## 🎨 Features
-
-| Tính năng | Chi tiết |
-|-----------|----------|
-| 🌍 Multi-lang | VI / RU / EN switcher + localStorage persist |
-| 🧮 Calculator | Interactive slider (1-20 refs × $5K-$100K spend) — auto-update tier |
-| 📱 Mobile | Hamburger menu, 44px tap targets, iOS safe area, no auto-zoom |
-| ♿ A11y | Skip link, focus-visible, reduced motion, ARIA labels |
-| 🔍 SEO | hreflang vi/ru/en, JSON-LD Organization + FAQPage, lang-aware title/meta |
-| 🍪 Legal | Cookie consent banner (GDPR + Russia FZ-152) |
-| 🔒 Security | rel=noopener noreferrer, X-Content-Type-Options, referrer policy |
-| 📊 Analytics ready | Cookie consent gate, GA/Plausible drop-in spot |
-
-## 🚀 Deploy lên Cloudflare Pages
+No build step. Tailwind is pre-generated and inlined in `index.html`; only Google Fonts is
+loaded from a CDN.
 
 ```bash
-# 1. Connect repo to Cloudflare Pages dashboard
-# 2. Build settings:
-#    Build command: (leave empty - no build step)
-#    Build output:  /
-# 3. Custom domain: funagency.com
-# 4. DNS auto-configured
+python3 -m http.server 8000   # → http://localhost:8000
 ```
 
-## 📝 Cần fix sau khi deploy
+Note that `/terms` and `/privacy` only resolve without the `.html` suffix once deployed —
+`cleanUrls` in `vercel.json` does that, the local static server does not.
 
-| Item | Where |
-|------|-------|
-| Upload `og-cover.png` + `logo.png` | Cloudflare R2 or DO Spaces |
-| Tạo `/terms` + `/privacy` pages | Cùng repo hoặc subdomain |
-| Setup Telegram bot listener cho `?start=lead_*` | Backend (xem docs/03-api-contract.md section 9.5) |
-| Build Tailwind local (replace CDN) | Sprint 1 / FE-1.1 |
-| Setup Plausible/GA analytics | Drop script tag after cookie accept |
+## Languages
 
-## 📄 Form submission
+English and Russian. Vietnamese was removed in `77b002d`.
 
-Form `id="leadForm"` submit → mở Telegram bot deeplink:
+The switcher toggles `.lang-content` blocks and stores the choice under `funagency_lang`.
+A `?lang=en|ru` query parameter overrides the stored value, which is what the `hreflang`
+alternates point at. Unsupported codes fall back to English — without that guard, a stale
+`vi` left in a returning visitor's storage would match no block and render a blank page.
+
+## Referral rules encoded in the page
+
+The commission rate follows the **referred client's** service fee tier, not the referrer's
+volume: 1.0% when that client pays a fee of 5% or more, 0.5% below that. Status tiers
+(Starter 0–4, Growth 5–14, VIP 15+) carry no rate. Commissions hold for 14 days; payouts go
+out in USDT TRC20 from $20 with a $1 network fee.
+
+Keep `terms.html` in step with `getRate()` and `getTier()` in `index.html` — the terms page
+states these numbers as binding.
+
+## Editing the styles
+
+`index.html` carries generated Tailwind CSS. After adding classes that are not already in
+the file, regenerate it:
+
+```bash
+printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n' > in.css
+npx tailwindcss@3 -i in.css -o out.css --content index.html --minify
 ```
-https://t.me/funagency_bot?start=lead_<personaCode>_<tgUsername>
+
+Then replace the contents of the generated `<style>` block near the top of `index.html`.
+
+`privacy.html` was derived from `terms.html` and shares its CSS and language switcher —
+a change to one page's chrome needs the same change in the other.
+
+## Deploy
+
+Vercel, project `funagency-landing`. Pushing to `main` does **not** deploy; there is no git
+integration. Deploy from this directory:
+
+```bash
+vercel --prod
 ```
 
-Persona codes: `mb` Media buyer · `bk` Blogger/KOL · `co` Consultant · `ag` Agency · `ex` Ex-media buyer · `cm` Community manager · `ot` Other.
+Take care: `~/Public/funagency-landing` is a different repository linked to the *same*
+Vercel project. Running the command there overwrites this site.
 
-Bot phía backend cần decode start param và lưu lead vào DB (chi tiết trong `funagency-referral-docs` repo, file `docs/03-api-contract.md` section 9.5).
+## Known gaps
 
-## 🔗 Related repos
+- No analytics. The page has no measurement of visits or clicks through to the bot.
+- `terms.html` and `privacy.html` name no legal entity, registration number, or governing
+  law, and have not been reviewed by a lawyer.
+- 152-FZ expects personal data of Russian citizens to be stored on servers located in
+  Russia. This site runs on Vercel's edge network.
 
-- [funagency-referral-docs](.) — 7 docs cho dev senior + prototype MiniApp
-- [funagency-referral-miniapp](.) — MiniApp UI mockup (full UX)
-- [funagency-referral-bot](.) — Telegram bot mockup (6 scenarios)
-
-## 📜 License
+## License
 
 Private — © FunAgency 2026.
