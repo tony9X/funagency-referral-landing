@@ -1,0 +1,17 @@
+{
+  "name": "funagency-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FunAgency client bot: sign-up codes, FAQ menu and anonymous support relay",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --env-file=.env --disable-warning=ExperimentalWarning src/index.js",
+    "test": "node --disable-warning=ExperimentalWarning --test \"test/*.test.js\""
+  },
+  "dependencies": {
+    "grammy": "^1.36.0"
+  }
+}
