@@ -1,0 +1,709 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Local copy of the onboarding demo. Fake data only; nothing is sent anywhere. Open the file in a browser. -->
+<title>FunAgency Onboarding Demo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: sticky top bar; demo = stepper + one centered card (dashboard swaps in after payment); architecture section below in a reading column */
+:root{
+  --bg:#0b0b0d; --bg-dots:#1c1c21; --surface:#141418; --surface-2:#1b1b20; --line:#2a2a31;
+  --fg:#f2f2f4; --muted:#9a9aa6; --accent:#f97316; --accent-2:#ea580c; --accent-soft:#2a1a0e; --on-accent:#ffffff;
+  --good:#34c77b; --good-soft:#10261a; --warn:#f2b43c; --warn-soft:#2b220f; --tg:#2aa3e0;
+  --f-ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#f6f5f3; --bg-dots:#dedad5; --surface:#ffffff; --surface-2:#f4f2ef; --line:#e4e0da;
+  --fg:#17171a; --muted:#696872; --accent:#ea580c; --accent-2:#c2410c; --accent-soft:#fff0e5; --on-accent:#ffffff;
+  --good:#1a8a52; --good-soft:#e5f6ec; --warn:#9a6400; --warn-soft:#fff5dd; --tg:#1d8fca; color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#f6f5f3; --bg-dots:#dedad5; --surface:#ffffff; --surface-2:#f4f2ef; --line:#e4e0da;
+  --fg:#17171a; --muted:#696872; --accent:#ea580c; --accent-2:#c2410c; --accent-soft:#fff0e5; --on-accent:#ffffff;
+  --good:#1a8a52; --good-soft:#e5f6ec; --warn:#9a6400; --warn-soft:#fff5dd; --tg:#1d8fca; color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 var(--f-ui);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono)}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em;font-size:17px}
+.logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#fb923c,#f97316 50%,#ea580c);display:grid;place-items:center;color:#fff;font-weight:900;font-size:17px}
+.nav{display:flex;gap:4px;margin-left:auto}
+.nav a{white-space:nowrap;color:var(--muted);text-decoration:none;padding:7px 12px;border-radius:8px;font-weight:500;font-size:14px}
+.nav a:hover{color:var(--fg);background:var(--surface-2)}
+.ghost{white-space:nowrap;background:transparent;border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:13px;color:var(--muted)}
+.ghost:hover{color:var(--fg)}
+.demo-badge{font:600 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--warn);background:var(--warn-soft);padding:5px 8px;border-radius:5px}
+@media (max-width:560px){.demo-badge{display:none}.top .in{gap:10px}.nav a{padding:7px 8px}.ghost{padding:7px 9px}}
+
+/* demo stage */
+.stage{background-color:var(--bg);background-image:radial-gradient(var(--bg-dots) 1.2px,transparent 1.2px);background-size:22px 22px;padding-block:36px 56px}
+.stage .in{max-width:1180px;margin:0 auto}
+.stepper{display:flex;justify-content:center;margin:0 auto 32px;max-width:720px}
+.st{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;min-width:0}
+.st:not(:last-child)::after{content:"";position:absolute;top:19px;left:calc(50% + 22px);right:calc(-50% + 22px);height:2px;background:var(--line)}
+.st.done:not(:last-child)::after{background:var(--accent)}
+.dot{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--surface-2);color:var(--muted);border:1px solid var(--line);position:relative;z-index:1}
+.st.cur .dot,.st.done .dot{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.st span{font-size:13px;color:var(--muted);white-space:nowrap}
+.st.cur span{color:var(--fg);font-weight:600}
+@media (max-width:560px){.st span{display:none}.dot{width:32px;height:32px;font-size:13px}.st:not(:last-child)::after{top:15px}}
+
+.card{max-width:560px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:32px;box-shadow:0 12px 40px rgba(0,0,0,.18)}
+.card.wide{max-width:1040px}
+@media (max-width:560px){.card{padding:22px}}
+.card h2{font-size:26px;letter-spacing:-.02em;margin:0 0 6px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 24px}
+.fld{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.fld label{font-weight:500;font-size:14px}
+.inp{width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:13px 14px;font-size:15px}
+.inp:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.pw{position:relative}
+.pw button{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--muted);cursor:pointer;padding:6px;font-size:13px}
+.hint{font-size:12.5px;color:var(--muted)}
+.err{font-size:12.5px;color:#ef6a5a}
+.btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:10px;padding:15px;font-weight:700;font-size:16px;cursor:pointer;background:var(--accent);color:var(--on-accent);transition:background .15s,opacity .15s}
+.btn:hover:not(:disabled){background:var(--accent-2)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.sec{background:var(--surface-2);color:var(--fg);border:1px solid var(--line)}
+.link{background:none;border:0;color:var(--muted);cursor:pointer;font-weight:600;padding:12px;width:100%}
+.link:hover{color:var(--fg)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+
+/* segmented */
+.seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:8px 14px;border-radius:7px;cursor:pointer;color:var(--muted);font-weight:500;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+
+/* telegram */
+.tgcard{display:flex;align-items:center;gap:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:22px}
+.tgicon{width:46px;height:46px;border-radius:50%;background:var(--tg);display:grid;place-items:center;flex:none}
+.tgcard .h{font-weight:700;color:var(--tg)}
+.tgcard .acts{margin-left:auto;display:flex;gap:6px}
+.icobtn{width:36px;height:36px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--muted)}
+.icobtn:hover{color:var(--fg)}
+.otp{display:flex;gap:8px;justify-content:center;margin:8px 0 22px}
+.otp input{width:48px;height:56px;text-align:center;font:600 22px var(--f-mono);background:var(--surface-2);border:1px solid var(--line);border-radius:10px}
+.otp input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+@media (max-width:420px){.otp input{width:40px;height:50px;font-size:19px}.otp{gap:6px}}
+.chat{background:var(--surface-2);border:1px dashed var(--line);border-radius:12px;padding:14px;margin-bottom:22px;display:flex;flex-direction:column;gap:8px}
+.chat .lbl{font:600 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.bub{max-width:88%;padding:9px 12px;border-radius:12px;font-size:14px}
+.bub.me{align-self:flex-end;background:var(--tg);color:#fff;border-bottom-right-radius:4px}
+.bub.bot{align-self:flex-start;background:var(--surface);border:1px solid var(--line);border-bottom-left-radius:4px}
+.bub code{font-family:var(--f-mono);background:var(--accent-soft);color:var(--accent);padding:1px 6px;border-radius:4px;cursor:pointer}
+
+/* plans */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:22px 0}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:14px;position:relative;min-width:0}
+.plan.rec{border:2px solid var(--accent)}
+.plan.locked{opacity:.55}
+.plan .tag{position:absolute;top:-11px;left:20px;background:var(--accent);color:var(--on-accent);font:700 11px/1 var(--f-ui);padding:5px 9px;border-radius:99px;letter-spacing:.02em}
+.plan h3{margin:0;font-size:16px}
+.price{display:flex;align-items:baseline;gap:8px}
+.price b{font-size:40px;letter-spacing:-.03em;line-height:1}
+.price span{color:var(--muted);font-size:14px}
+.plan ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:14px}
+.plan li{display:flex;gap:9px;align-items:flex-start}
+.plan li::before{content:"";flex:none;width:16px;height:16px;margin-top:2px;border-radius:50%;background:var(--good-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.6L12 5.4' fill='none' stroke='%2334c77b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.plan .foot{margin-top:auto;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface-2);border-radius:99px;padding:8px 14px;cursor:pointer;font-weight:500;font-size:14px;display:flex;gap:8px;align-items:center}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--fg)}
+.chip i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* payment */
+.sum{display:flex;justify-content:space-between;align-items:center;background:var(--accent-soft);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:18px;gap:12px}
+.sum b{font-size:26px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.breakdown{font-size:13.5px;color:var(--muted);display:grid;grid-template-columns:1fr auto;gap:4px 12px;margin:-6px 0 18px;font-variant-numeric:tabular-nums}
+.breakdown span:nth-child(even){text-align:right;color:var(--fg)}
+.radios{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.radios label{display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:500}
+.radios input{width:18px;height:18px;accent-color:var(--accent)}
+.radios small{color:var(--muted);font-weight:400}
+.qrwrap{display:grid;place-items:center;margin:4px 0 18px;position:relative}
+canvas.qr{width:200px;height:200px;border-radius:10px;background:#fff;padding:10px}
+.qrwrap .wm{position:absolute;font:700 12px/1 var(--f-mono);background:var(--warn);color:#000;padding:5px 8px;border-radius:5px;transform:rotate(-8deg);letter-spacing:.06em}
+.addr{display:flex;align-items:center;gap:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:500 14px var(--f-mono);word-break:break-all}
+.addr button{margin-left:auto;flex:none}
+.wait{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--muted)}
+.wait .t{margin-left:auto;font:600 15px var(--f-mono);color:var(--fg);font-variant-numeric:tabular-nums}
+.spin{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);animation:sp 0.9s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.warnbox{background:var(--warn-soft);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13.5px;color:var(--fg);margin-bottom:16px}
+.warnbox b{color:var(--warn)}
+.conf{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden;margin:4px 0 6px}
+.conf div{height:100%;background:var(--good);width:0;transition:width .4s}
+
+/* dashboard */
+.dash{display:grid;grid-template-columns:200px 1fr;gap:0;min-height:520px;padding:0;overflow:hidden}
+@media (max-width:760px){.dash{grid-template-columns:1fr}.side{display:flex;flex-direction:row!important;overflow-x:auto;border-right:0!important;border-bottom:1px solid var(--line)}}
+.side{border-right:1px solid var(--line);padding:16px 10px;display:flex;flex-direction:column;gap:2px;background:var(--surface-2)}
+.side button{background:none;border:0;text-align:left;padding:9px 12px;border-radius:8px;color:var(--muted);cursor:pointer;font-weight:500;white-space:nowrap}
+.side button[aria-current="page"]{background:var(--surface);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.main{padding:24px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.kpi{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .v{font-size:24px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:12.5px;color:var(--muted)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line)}
+th{font:600 11.5px/1.2 var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;text-align:right}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 9px;border-radius:99px}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.pend{background:var(--warn-soft);color:var(--warn)}
+.pill.pend::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;animation:pl 1s ease-in-out infinite alternate}
+@keyframes pl{from{opacity:.3}to{opacity:1}}
+.dhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dhead h2{margin:0;font-size:22px}
+.dhead .btn{width:auto;padding:10px 16px;font-size:14px;margin-left:auto}
+
+/* modal */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:40;padding:16px}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:16px;max-width:520px;width:100%;max-height:calc(100% - 32px);overflow:auto;position:relative}
+.modal .x{position:absolute;top:12px;right:12px}
+.mh{padding:24px 24px 8px}
+.mh h3{margin:0;font-size:21px}
+.mb{padding:8px 24px 24px;display:flex;flex-direction:column;gap:14px}
+.grp{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.grp .gt{padding:12px 14px;background:var(--surface-2);font-weight:700;display:flex;gap:10px;align-items:center}
+.mem{display:flex;align-items:center;gap:12px;padding:10px 14px;border-top:1px solid var(--line)}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;flex:none}
+.mem .s{font-size:12.5px;color:var(--muted)}
+.role{margin-left:auto;font-size:12px;font-weight:600;padding:3px 8px;border-radius:99px}
+.ref{background:linear-gradient(135deg,var(--accent-soft),var(--surface-2));border:1px solid var(--line);border-radius:12px;padding:16px}
+.ref .big{font-size:30px;font-weight:800;color:var(--accent);letter-spacing:-.02em}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;font-size:14px;z-index:50}
+
+/* architecture */
+.arch{max-width:1040px;margin:0 auto;padding-block:56px 80px;display:flex;flex-direction:column;gap:44px}
+.arch .prose{max-width:70ch}
+.eyebrow{font:600 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.arch h2{font-size:28px;letter-spacing:-.02em;margin:0 0 10px;text-wrap:balance}
+.arch h3{font-size:18px;margin:0 0 8px}
+.arch p{margin:0 0 10px;color:var(--muted)}
+.arch code{font-family:var(--f-mono);font-size:.88em;background:var(--accent-soft);color:var(--fg);padding:1px 5px;border-radius:4px}
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;overflow-x:auto}
+.diagram pre.mermaid{margin:0;min-width:760px;background:transparent}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;min-width:0}
+.box ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px}
+.box li{margin:4px 0}
+.phase{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:16px 0;border-top:1px solid var(--line)}
+.phase:first-child{border-top:0}
+.phase .w{font:600 13px var(--f-mono);color:var(--accent)}
+.phase p{margin:0}
+@media (max-width:560px){.phase{grid-template-columns:1fr;gap:4px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="in gut">
+  <div class="brand"><div class="logo">F</div>FunAgency</div>
+  <span class="demo-badge">Demo</span>
+  <nav class="nav"><a href="#demo">Demo</a><a href="#arch">Kiến trúc</a></nav>
+  <button class="ghost" id="resetBtn" type="button">Làm lại</button>
+</div></header>
+
+<section class="stage gut" id="demo">
+  <div class="in">
+    <div class="stepper" id="stepper"></div>
+    <div id="screen"></div>
+  </div>
+</section>
+
+<section class="arch gut" id="arch">
+  <header class="prose">
+    <div class="eyebrow">Kiến trúc hệ thống</div>
+    <h2>FunAgency Client Cabinet</h2>
+    <p>Luồng onboarding ở trên chạy trên kiến trúc dưới đây. Mô hình lấy từ Cabinet Partners, nhưng sửa những chỗ họ làm dở: thanh tiến trình nói thật số bước, có xác minh email, và khách luôn biết bot đọc được tin nhắn trong nhóm. Demo dùng dữ liệu giả; ngưỡng phí, mức nạp tối thiểu và tên nhân viên đều là ví dụ.</p>
+  </header>
+
+  <div>
+    <div class="prose"><h3>Tổng thể</h3><p>Ba lối vào (web, bot, blockchain) cùng đổ về một API. Mọi việc chậm hoặc phụ thuộc bên ngoài (gửi Telegram, theo dõi giao dịch, cấp tài khoản) chạy qua hàng đợi để web không phải chờ.</p></div>
+    <div class="diagram"><pre class="mermaid">
+flowchart LR
+  subgraph Edge["Lối vào"]
+    LAND["Landing funref.com<br/>(repo này)"]
+    WEB["Client cabinet<br/>Next.js SPA"]
+    TGU["Telegram app"]
+    WAL["Ví USDT"]
+  end
+  subgraph Core["Backend (NestJS hoặc FastAPI)"]
+    API["REST API + auth JWT"]
+    ID["Identity<br/>users, teams, seats"]
+    LINK["Telegram link<br/>mã 6 số TTL 15 phút"]
+    BILL["Billing<br/>invoices, ledger, phí 4-7%"]
+    ACC["Account ops<br/>cấp, nạp, thay 60s"]
+    REF["Referral<br/>1.0% / 0.5% spend, hold 14 ngày"]
+    SUP["Support router<br/>nhóm 1-1, hộp thư"]
+  end
+  subgraph Workers["Worker + hàng đợi (BullMQ / Redis)"]
+    BOTW["Bot worker<br/>@funagency_bot (grammY)"]
+    UB["Group provisioner<br/>tài khoản FunAgency Support (MTProto)"]
+    CW["Chain watcher<br/>TronGrid / Etherscan"]
+    PW["Provisioning worker<br/>Meta / TikTok / Google"]
+  end
+  subgraph Data["Dữ liệu"]
+    PG[("Postgres")]
+    RD[("Redis<br/>OTP, khoá, hàng đợi")]
+    KMS[("Ví HD + KMS<br/>địa chỉ nạp riêng mỗi hoá đơn")]
+  end
+  INBOX["Hộp thư nội bộ<br/>nhân viên trả lời qua bot"]
+  LAND -->|?ref=| WEB
+  WEB --> API
+  API --> ID & LINK & BILL & ACC & REF & SUP
+  TGU <--> BOTW
+  BOTW <--> LINK
+  UB --> SUP
+  SUP <--> BOTW
+  SUP <--> INBOX
+  WAL --> CW --> BILL
+  BILL --> KMS
+  BILL --> REF
+  ACC --> PW
+  ID & BILL & ACC & REF & SUP --> PG
+  LINK & BILL --> RD
+</pre></div>
+  </div>
+
+  <div>
+    <div class="prose"><h3>Trình tự onboarding</h3><p>Khớp từng bước của demo. Thứ tự: kích hoạt Telegram trước khi chọn gói, để sales có kênh liên lạc ngay cả khi khách bỏ dở ở bước nạp tiền.</p></div>
+    <div class="diagram"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor U as Khách
+  participant W as Web cabinet
+  participant A as API
+  participant B as Bot
+  participant G as Group provisioner
+  participant C as Chain watcher
+  U->>W: Account (tên, email, mật khẩu)
+  W->>A: POST /auth/register, gửi email xác minh
+  U->>W: Team (tên, chi tiêu/tháng, mã ref)
+  W->>A: POST /teams, gắn referrer nếu có ?ref
+  U->>B: /start
+  B->>A: Tạo OTP 6 số cho tg_user_id
+  B-->>U: Mã + nút "Mở lại web"
+  U->>W: Nhập mã
+  W->>A: POST /telegram/verify
+  A->>G: Lấy nhóm trống trong pool
+  G-->>A: chat_id
+  A->>B: Đổi tên nhóm theo team + ID, tạo invite dùng 1 lần
+  B-->>U: Link nhóm hỗ trợ + thông báo bot đọc tin nhóm
+  U->>W: Chọn nền tảng + bậc phí
+  U->>W: Nhập số tiền nạp, chọn mạng
+  W->>A: POST /invoices
+  A-->>W: Địa chỉ riêng + QR + hạn 30 phút
+  U->>C: Chuyển USDT
+  C->>A: Đủ 19 xác nhận TRON
+  A->>A: Ghi ledger, kích hoạt team, gắn referrer
+  A-->>W: Dashboard, tài khoản quảng cáo đang cấp
+</pre></div>
+  </div>
+
+  <div class="grid3">
+    <div class="box"><h3>Bảng dữ liệu</h3><ul>
+      <li><code>users</code>: email, password_hash, email_verified, tg_user_id</li>
+      <li><code>teams</code>, <code>memberships</code>: seat, vai trò</li>
+      <li><code>referrals</code>: referrer_id, team_id, rate, created_at</li>
+      <li><code>fee_tiers</code>: min_spend, fee_pct (7 / 5 / 4)</li>
+      <li><code>invoices</code>: network, address, amount, expires_at, status</li>
+      <li><code>ledger</code>: bút toán kép; nạp, phí, chi, hoa hồng</li>
+      <li><code>ad_accounts</code>: platform, external_id, status, replaced_by</li>
+      <li><code>tg_groups</code>: chat_id, team_id, assignee_id, invite_link</li>
+    </ul></div>
+    <div class="box"><h3>Quyết định quan trọng</h3><ul>
+      <li>Mỗi hoá đơn một địa chỉ nạp (ví HD), không đối soát theo số tiền lẻ.</li>
+      <li>Ledger bút toán kép: số dư, phí và hoa hồng giới thiệu đều tính từ một nguồn.</li>
+      <li>Bot API không tạo được nhóm; một tài khoản người dùng tạo sẵn pool 50-100 nhóm, worker bù khi gần hết.</li>
+      <li>Webhook chain, Telegram và nền tảng ads đều có idempotency key.</li>
+      <li><code>getRate()</code> trên landing và bảng <code>fee_tiers</code> phải khớp với <code>terms.html</code>.</li>
+    </ul></div>
+    <div class="box"><h3>Rủi ro cần xử lý</h3><ul>
+      <li>Gửi sai mạng: cảnh báo rõ, chỉ hiện mạng đã chọn, kiểm tra token contract.</li>
+      <li>Tài khoản Telegram tạo nhóm có thể bị giới hạn nếu tạo quá nhanh: giới hạn tốc độ, có tài khoản dự phòng.</li>
+      <li>Khoá ví: private key trong KMS, gom tiền về ví lạnh theo lịch.</li>
+      <li>152-FZ / GDPR: README đã ghi chưa đáp ứng lưu trữ dữ liệu tại Nga.</li>
+    </ul></div>
+  </div>
+
+  <div>
+    <div class="prose"><h3>Lộ trình gợi ý</h3></div>
+    <div class="box">
+      <div class="phase"><div class="w">Tuần 1-2</div><p>Identity + Telegram link + bot <code>/start</code> trả OTP. Web gồm 3 bước đầu của demo.</p></div>
+      <div class="phase"><div class="w">Tuần 3-4</div><p>Billing: hoá đơn USDT TRC-20, chain watcher, ledger. Chưa cần ERC-20.</p></div>
+      <div class="phase"><div class="w">Tuần 5</div><p>Pool nhóm hỗ trợ, hộp thư nội bộ, phân công nhân viên.</p></div>
+      <div class="phase"><div class="w">Tuần 6+</div><p>Dashboard tài khoản, yêu cầu thay tài khoản, trang referral thay cho <code>@fun_referrer_bot</code>.</p></div>
+    </div>
+  </div>
+</section>
+
+<script>
+(() => {
+  const STEPS = ["Account", "Team", "Telegram", "Plan", "Top up"];
+  const TIERS = [
+    { id: "start", name: "Start", fee: 7, min: 0, label: "Any spend" },
+    { id: "pro", name: "Pro", fee: 5, min: 10000, label: "From $10K / month" },
+    { id: "scale", name: "Scale", fee: 4, min: 50000, label: "From $50K / month" },
+  ];
+  const SPEND = [
+    { v: 5000, t: "Under $10K" }, { v: 25000, t: "$10K – $50K" }, { v: 80000, t: "$50K+" },
+  ];
+  const PLATFORMS = [
+    { id: "meta", t: "Meta", c: "#1877f2" }, { id: "tiktok", t: "TikTok", c: "#ff2d55" }, { id: "google", t: "Google", c: "#34a853" },
+  ];
+  const NETS = [
+    { id: "trc20", t: "USDT · Tron (TRC-20)", note: "~$1 network fee", addr: "TDemoFunAgency0000NotARealAddress1" },
+    { id: "erc20", t: "USDT · Ethereum (ERC-20)", note: "higher gas", addr: "0xDEMO000000000000000000000000000000000000" },
+    { id: "usdc", t: "USDC · Ethereum (ERC-20)", note: "higher gas", addr: "0xDEMO000000000000000000000000000000000001" },
+  ];
+  const DEMO_OTP = "482913";
+  const MIN_TOPUP = 100;
+
+  const fresh = () => ({
+    step: 0, name: "Alex Nguyen", email: "alex@arbteam.io", pw: "", showPw: false,
+    team: "ARB Team", spend: 25000, ref: "ref_7KX2",
+    botOpened: false, otp: ["", "", "", "", "", ""], tgDone: false,
+    platforms: ["meta"], tier: "pro",
+    amount: 1000, amtRaw: "1000", net: "trc20", invoice: null, paid: false,
+    page: "accounts", modal: false, accounts: [],
+  });
+  let S = fresh();
+  let timer = null;
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = (x) => String(x).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const money = (n) => "$" + n.toLocaleString("en-US", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+  const tier = () => TIERS.find((t) => t.id === S.tier);
+  const eligible = (t) => S.spend >= t.min;
+  const bestTier = () => [...TIERS].reverse().find(eligible);
+
+  function toast(msg) {
+    const t = document.createElement("div");
+    t.className = "toast"; t.textContent = msg; document.body.appendChild(t);
+    setTimeout(() => t.remove(), 1800);
+  }
+  function copy(text, msg) {
+    const done = () => toast(msg || "Copied");
+    try { navigator.clipboard.writeText(text).then(done, done); } catch (e) { done(); }
+  }
+
+  const valid0 = () => S.name.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.email) && S.pw.length >= 8;
+  const valid1 = () => S.team.trim().length > 1;
+  const emailMsg = () => S.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.email)
+    ? '<span class="err">Enter a valid email, like name@team.io</span>' : '<span class="hint">We send a confirmation link here.</span>';
+  const amtMsg = () => S.amount >= MIN_TOPUP ? `<span class="hint">Minimum ${money(MIN_TOPUP)}.</span>` : `<span class="err">Enter at least ${money(MIN_TOPUP)}.</span>`;
+  const totals = () => { const fee = Math.round(S.amount * tier().fee) / 100; return { fee, total: S.amount + fee }; };
+  const bdHTML = () => { const t = tier(), x = totals(); return `<span>Ad balance</span><span>${money(S.amount)}</span><span>Service fee (${t.name}, ${t.fee}%)</span><span>${money(x.fee)}</span><span><b style="color:var(--fg)">You pay</b></span><span><b>${money(x.total)}</b></span>`; };
+  // Updates buttons and messages in place so typing never re-renders the field being edited.
+  function sync() {
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.innerHTML = v; };
+    const next = $("#next");
+    if (S.step === 0) { if (next) next.disabled = !valid0(); set("emailMsg", emailMsg()); }
+    if (S.step === 1 && next) next.disabled = !valid1();
+    if (S.step === 2 && next) next.disabled = S.otp.join("").length !== 6;
+    if (S.step === 4) { const b = $("#mkInvoice"); if (b) b.disabled = S.amount < MIN_TOPUP; set("amtMsg", amtMsg()); set("bd", bdHTML()); }
+  }
+
+  function renderStepper() {
+    const el = $("#stepper");
+    if (S.paid) { el.hidden = true; return; }
+    el.hidden = false;
+    el.innerHTML = STEPS.map((s, i) => {
+      const cls = i < S.step ? "done" : i === S.step ? "cur" : "";
+      const inner = i < S.step ? '<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.4l3 3L12.5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>' : i + 1;
+      return `<div class="st ${cls}"><div class="dot">${inner}</div><span>${s}</span></div>`;
+    }).join("");
+  }
+
+  const V = {
+    0() {
+      const ok = valid0();
+      return `<div class="card">
+        <h2>Create your account</h2><p class="sub">Rent Meta, TikTok and Google ad accounts at 4–7% fee.</p>
+        <div class="fld"><label for="f-name">Name</label><input class="inp" id="f-name" value="${esc(S.name)}" autocomplete="name"></div>
+        <div class="fld"><label for="f-email">Email</label><input class="inp" id="f-email" type="email" value="${esc(S.email)}" autocomplete="email">
+          <span id="emailMsg">${emailMsg()}</span></div>
+        <div class="fld"><label for="f-pw">Password</label><div class="pw"><input class="inp" id="f-pw" type="${S.showPw ? "text" : "password"}" value="${esc(S.pw)}" placeholder="At least 8 characters" autocomplete="new-password"><button type="button" id="togglePw">${S.showPw ? "Hide" : "Show"}</button></div>
+          <span class="hint">Demo: type any 8 characters.</span></div>
+        <button class="btn" id="next" ${ok ? "" : "disabled"}>Continue →</button>
+      </div>`;
+    },
+    1() {
+      const ok = valid1();
+      return `<div class="card">
+        <h2>Your team</h2><p class="sub">Your team name is visible to teammates you invite and to your FunAgency manager.</p>
+        <div class="fld"><label for="f-team">Team or agency name</label><input class="inp" id="f-team" value="${esc(S.team)}" placeholder="My agency"></div>
+        <div class="fld"><label>Monthly ad spend</label><div class="seg" role="group" aria-label="Monthly ad spend">
+          ${SPEND.map((o) => `<button type="button" data-spend="${o.v}" aria-pressed="${S.spend === o.v}">${o.t}</button>`).join("")}
+        </div><span class="hint">Sets the fee tier you qualify for. You can change it later.</span></div>
+        <div class="fld"><label for="f-ref">Referral code</label><input class="inp mono" id="f-ref" value="${esc(S.ref)}" placeholder="Optional">
+          <span class="hint">Filled in from the link you followed (<span class="mono">?start=ref_…</span>).</span></div>
+        <button class="btn" id="next" ${ok ? "" : "disabled"}>Continue →</button>
+        <button class="link" id="back">Back</button>
+      </div>`;
+    },
+    2() {
+      const ok = S.otp.join("").length === 6;
+      const chat = S.botOpened ? `<div class="chat" aria-live="polite"><span class="lbl">Telegram · @funagency_bot (simulated)</span>
+          <div class="bub me">/start</div>
+          <div class="bub bot">👋 Hi ${esc(S.name.split(" ")[0])}! Your code: <code id="tapCode" title="Tap to fill">${DEMO_OTP}</code><br>Valid for 15 minutes. Send /code for a new one.</div></div>` : "";
+      return `<div class="card">
+        <h2>Connect Telegram</h2><p class="sub">Message our bot to get a 6-digit code. This links your Telegram so your manager can reach you and you get top-up alerts.</p>
+        <div class="tgcard">
+          <div class="tgicon"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M21.5 4.3 18.4 19c-.2 1-.9 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8 8.8-7.9c.4-.3-.1-.5-.6-.2L6.3 12.9l-4.6-1.4c-1-.3-1-1 .2-1.5L20.1 3c.8-.3 1.6.2 1.4 1.3z"/></svg></div>
+          <div><div class="h mono">@funagency_bot</div><div class="hint">Tap open, then press Start</div></div>
+          <div class="acts">
+            <button class="icobtn" id="copyBot" title="Copy username" aria-label="Copy username"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg></button>
+            <button class="icobtn" id="openBot" title="Open bot" aria-label="Open bot"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7zM19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7z"/></svg></button>
+          </div>
+        </div>
+        ${chat}
+        <div style="text-align:center;font-weight:600;margin-bottom:4px">Activation code</div>
+        <div class="otp" id="otp">${[0,1,2,3,4,5].map((i) => `<input id="otp-${i}" inputmode="numeric" maxlength="1" aria-label="Digit ${i + 1}" value="${esc(S.otp[i])}">`).join("")}</div>
+        <button class="btn" id="next" ${ok ? "" : "disabled"}>Activate</button>
+        ${S.otpErr ? '<p class="err" style="text-align:center;margin:10px 0 0">That code doesn\'t match. Check the latest message from the bot, or send /code for a new one.</p>' : ""}
+        <button class="link" id="back">Back</button>
+      </div>`;
+    },
+    3() {
+      return `<div class="card wide">
+        <h2 style="text-align:center">Choose platforms and fee</h2>
+        <p class="sub" style="text-align:center">Your fee is a share of each top-up. Higher spend unlocks a lower fee.</p>
+        <div class="fld" style="align-items:center"><div class="chips" role="group" aria-label="Platforms">
+          ${PLATFORMS.map((p) => `<button type="button" class="chip" data-plat="${p.id}" aria-pressed="${S.platforms.includes(p.id)}"><i style="background:${p.c}"></i>${p.t} Ads</button>`).join("")}
+        </div></div>
+        <div class="plans">
+          ${TIERS.map((t) => {
+            const el = eligible(t), rec = bestTier().id === t.id;
+            return `<div class="plan ${S.tier === t.id ? "rec" : ""} ${el ? "" : "locked"}">
+              ${rec ? '<span class="tag">Your tier</span>' : ""}
+              <h3>${t.name}</h3>
+              <div class="price"><b>${t.fee}%</b><span>of top-up</span></div>
+              <ul><li>Accounts, fan pages and pixels included</li><li>Account replacement in 60 seconds</li><li>${t.id === "start" ? "Support in your Telegram group" : t.id === "pro" ? "Named manager in your group" : "Priority issuing + dedicated manager"}</li>${t.id === "scale" ? "<li>Custom limits per account</li>" : ""}</ul>
+              <div class="foot">${t.label}</div>
+              <button class="btn ${S.tier === t.id ? "" : "sec"}" data-tier="${t.id}" ${el ? "" : "disabled"}>${el ? (S.tier === t.id ? "Selected" : "Choose") : "Unlock at " + money(t.min) + "/mo"}</button>
+            </div>`;
+          }).join("")}
+        </div>
+        <div style="max-width:420px;margin:0 auto">
+          <button class="btn" id="next" ${S.platforms.length ? "" : "disabled"}>Continue to top-up →</button>
+          <button class="link" id="back">Back</button>
+        </div>
+      </div>`;
+    },
+    4() {
+      const t = tier(), total = totals().total;
+      const ok = S.amount >= MIN_TOPUP;
+      if (!S.invoice) {
+        return `<div class="card">
+          <h2>First top-up</h2><p class="sub">Funds land on your ad balance once the transfer is confirmed.</p>
+          <div class="fld"><label for="f-amt">Ad balance to add (USD)</label><input class="inp mono" id="f-amt" inputmode="decimal" value="${esc(S.amtRaw)}">
+            <span id="amtMsg">${amtMsg()}</span></div>
+          <div class="breakdown" id="bd">${bdHTML()}</div>
+          <div class="fld"><label>Network</label></div>
+          <div class="radios" role="radiogroup" aria-label="Network" style="margin-top:-10px">
+            ${NETS.map((n) => `<label><input type="radio" name="net" value="${n.id}" ${S.net === n.id ? "checked" : ""}>${n.t} <small>· ${n.note}</small></label>`).join("")}
+          </div>
+          <button class="btn" id="mkInvoice" ${ok ? "" : "disabled"}>Get payment address</button>
+          <button class="link" id="back">Back</button>
+        </div>`;
+      }
+      const n = NETS.find((x) => x.id === S.net), inv = S.invoice;
+      if (inv.left === 0 && inv.conf === 0) {
+        return `<div class="card"><h2>Payment address expired</h2>
+          <p class="sub">Addresses are valid for 30 minutes. Don't send funds to the old one; it is no longer watched.</p>
+          <button class="btn" id="mkInvoice">Get a new address</button>
+          <button class="link" id="cancelInv">Change amount or network</button></div>`;
+      }
+      const mm = String(Math.floor(inv.left / 60)).padStart(2, "0"), ss = String(inv.left % 60).padStart(2, "0");
+      return `<div class="card">
+        <h2>Pay with crypto</h2>
+        <div class="sum"><span>${n.t}</span><b class="mono">${total.toFixed(2)} ${n.id === "usdc" ? "USDC" : "USDT"}</b></div>
+        <div class="qrwrap"><canvas class="qr" id="qr" width="180" height="180" aria-label="Payment QR code (demo)"></canvas><span class="wm">DEMO · DO NOT PAY</span></div>
+        <div class="fld"><label>Transfer address</label><div class="addr"><span>${n.addr}</span><button class="icobtn" id="copyAddr" aria-label="Copy address"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg></button></div></div>
+        ${inv.conf > 0 ? `<div class="wait"><span>Transfer seen · confirming</span><span class="t">${inv.conf}/19</span></div><div class="conf"><div style="width:${inv.conf / 19 * 100}%"></div></div>`
+          : `<div class="wait"><div class="spin"></div><span>Waiting for transfer…</span><span class="t" id="clock">${mm}:${ss}</span></div>`}
+        <div class="warnbox"><b>Send only ${n.id === "usdc" ? "USDC" : "USDT"} on ${n.t.split("· ")[1]}.</b> Other tokens or networks can't be credited and will be lost.</div>
+        <button class="btn sec" id="simPay" ${inv.conf > 0 ? "disabled" : ""}>Simulate transfer (demo)</button>
+        <button class="link" id="cancelInv">Change amount or network</button>
+      </div>`;
+    },
+  };
+
+  function dashboard() {
+    const t = tier();
+    const bal = S.amount - S.accounts.reduce((a, x) => a + x.spent, 0);
+    const pages = { accounts: "Ad accounts", topups: "Top-ups", replace: "Replacements", referral: "Referral", support: "Support" };
+    let body = "";
+    if (S.page === "accounts") {
+      body = `<div class="kpis">
+          <div class="kpi"><div class="v">${money(bal)}</div><div class="l">Ad balance</div></div>
+          <div class="kpi"><div class="v">${t.fee}%</div><div class="l">Fee tier · ${t.name}</div></div>
+          <div class="kpi"><div class="v">${S.accounts.filter((a) => a.st === "ok").length}/${S.accounts.length}</div><div class="l">Accounts active</div></div>
+          <div class="kpi"><div class="v">60s</div><div class="l">Replacement time</div></div>
+        </div>
+        <div class="tbl"><table><thead><tr><th>Account</th><th>Platform</th><th>Status</th><th style="text-align:right">Limit</th><th style="text-align:right">Spent</th></tr></thead><tbody>
+          ${S.accounts.map((a) => `<tr><td class="mono">${a.id}</td><td>${a.p}</td><td>${a.st === "ok" ? '<span class="pill ok">Active</span>' : '<span class="pill pend">Issuing</span>'}</td><td class="n">${money(a.limit)}</td><td class="n">${money(a.spent)}</td></tr>`).join("")}
+        </tbody></table></div>
+        <p class="hint" style="margin:0">Sample data. Accounts are issued for each platform you picked.</p>`;
+    } else if (S.page === "referral") {
+      body = refCard();
+    } else if (S.page === "support") {
+      body = groupCard();
+    } else {
+      body = `<div class="box" style="background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:24px;color:var(--muted)">This section is not part of the demo. In the full cabinet it lists ${pages[S.page].toLowerCase()} with dates and transaction hashes.</div>`;
+    }
+    return `<div class="card wide dash">
+      <nav class="side" aria-label="Cabinet">${Object.entries(pages).map(([k, v]) => `<button data-page="${k}" ${S.page === k ? 'aria-current="page"' : ""}>${v}</button>`).join("")}</nav>
+      <div class="main"><div class="dhead"><h2>${pages[S.page]}</h2><span class="hint">${esc(S.team)}</span><button class="btn" id="newAcc">+ Request account</button></div>${body}</div>
+    </div>${S.modal ? modal() : ""}`;
+  }
+
+  const groupTitle = () => `FunAgency x ${S.team} (#1024)`;
+  function groupCard() {
+    return `<div class="grp"><div class="gt"><span class="av" style="background:var(--accent)">F</span>${esc(groupTitle())}</div>
+      <div class="mem"><span class="av" style="background:#7b5cd6">M</span><div><div>Mia · Account manager</div><div class="s" style="color:var(--good)">online</div></div></div>
+      <div class="mem"><span class="av" style="background:#33333a">F</span><div><div>FunAgency Support</div><div class="s">Team replies from here</div></div><span class="role" style="background:var(--accent-soft);color:var(--accent)">owner</span></div>
+      <div class="mem"><span class="av" style="background:var(--tg)">B</span><div><div>FunAgency | Bot</div><div class="s">Reads group messages to log requests</div></div><span class="role" style="background:var(--good-soft);color:var(--good)">admin</span></div>
+    </div>
+    <div class="row"><button class="btn" id="joinGrp" style="flex:1">Open group in Telegram</button></div>
+    <p class="hint" style="margin:0">Our bot can read messages in this group so your requests reach the whole support team. Don't share passwords or 2FA codes here.</p>`;
+  }
+  function refCard() {
+    const link = `t.me/funagency_bot?start=ref_${S.team.replace(/\W+/g, "").slice(0, 6).toUpperCase() || "TEAM"}`;
+    return `<div class="ref"><div class="hint">Referral program</div><div class="big">Up to 1% lifetime</div>
+      <p style="margin:4px 0 12px;font-size:14px">Earn 1.0% of the ad spend of each client you bring who pays a 5%+ fee, or 0.5% if their fee is below 5%. A client qualifies after $10K of spend and 2 active months. Payouts in USDT TRC-20 from $20 after a 14-day hold, $1 network fee.</p>
+      <div class="addr"><span>${link}</span><button class="icobtn" id="copyRef" aria-label="Copy referral link"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg></button></div></div>`;
+  }
+  function modal() {
+    return `<div class="scrim" id="scrim"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+      <button class="icobtn x" id="closeModal" aria-label="Close">✕</button>
+      <div class="mh"><h3 id="mt">You're all set</h3><p class="hint" style="margin:6px 0 0">Payment confirmed. Your accounts are being issued now.</p></div>
+      <div class="mb">${groupCard()}${refCard()}</div></div></div>`;
+  }
+
+  function drawQR() {
+    const c = $("#qr"); if (!c) return;
+    const g = c.getContext("2d"), N = 25, s = c.width / N;
+    let seed = 0; for (const ch of NETS.find((x) => x.id === S.net).addr + S.amount) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+    const rnd = () => ((seed = (seed * 1103515245 + 12345) >>> 0) / 4294967296);
+    g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); g.fillStyle = "#000";
+    const finder = (x, y) => { g.fillRect(x * s, y * s, 7 * s, 7 * s); g.fillStyle = "#fff"; g.fillRect((x + 1) * s, (y + 1) * s, 5 * s, 5 * s); g.fillStyle = "#000"; g.fillRect((x + 2) * s, (y + 2) * s, 3 * s, 3 * s); };
+    const inF = (x, y) => (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) if (!inF(x, y) && rnd() > 0.52) g.fillRect(x * s, y * s, s, s);
+    finder(0, 0); finder(N - 7, 0); finder(0, N - 7);
+  }
+
+  function startClock() {
+    clearInterval(timer);
+    timer = setInterval(() => {
+      if (!S.invoice || S.invoice.conf > 0) return;
+      S.invoice.left = Math.max(0, S.invoice.left - 1);
+      if (S.invoice.left === 0) { clearInterval(timer); render(); return; }
+      const el = $("#clock"); if (!el) return;
+      el.textContent = String(Math.floor(S.invoice.left / 60)).padStart(2, "0") + ":" + String(S.invoice.left % 60).padStart(2, "0");
+    }, 1000);
+  }
+
+  function finishPayment() {
+    clearInterval(timer);
+    S.paid = true; S.modal = true; S.page = "accounts";
+    const ids = { meta: "act_", tiktok: "tt_", google: "g-" };
+    S.accounts = S.platforms.map((p, i) => ({ id: ids[p] + (418302 + i * 7391), p: PLATFORMS.find((x) => x.id === p).t, st: "pend", limit: tier().id === "scale" ? 5000 : tier().id === "pro" ? 1500 : 250, spent: 0 }));
+    render();
+    S.accounts.forEach((a, i) => setTimeout(() => { a.st = "ok"; if (!S.modal) render(); }, 2200 + i * 900));
+  }
+
+  function render() {
+    renderStepper();
+    const scr = $("#screen");
+    scr.innerHTML = S.paid ? dashboard() : V[S.step]();
+    bind(); drawQR();
+  }
+  const go = (d) => { S.step += d; S.otpErr = false; render(); window.scrollTo({ top: $("#demo").offsetTop - 60, behavior: "smooth" }); };
+
+  function bind() {
+    const on = (id, ev, fn) => { const el = document.getElementById(id); if (el) el.addEventListener(ev, fn); };
+    on("next", "click", () => {
+      if (S.step === 2) { if (S.otp.join("") !== DEMO_OTP) { S.otpErr = true; render(); return; } S.tgDone = true; toast("Telegram linked · group invite sent"); }
+      go(1);
+    });
+    on("back", "click", () => go(-1));
+    on("f-name", "input", (e) => { S.name = e.target.value; sync(); });
+    on("f-email", "input", (e) => { S.email = e.target.value; sync(); });
+    on("f-pw", "input", (e) => { S.pw = e.target.value; sync(); });
+    on("togglePw", "click", () => { S.showPw = !S.showPw; render(); $("#f-pw").focus(); });
+    on("f-team", "input", (e) => { S.team = e.target.value; sync(); });
+    on("f-ref", "input", (e) => { S.ref = e.target.value; });
+    document.querySelectorAll("[data-spend]").forEach((b) => b.addEventListener("click", () => { S.spend = +b.dataset.spend; S.tier = bestTier().id; render(); }));
+    on("copyBot", "click", () => copy("@funagency_bot", "Username copied"));
+    on("openBot", "click", () => { S.botOpened = true; render(); });
+    on("tapCode", "click", () => { S.otp = DEMO_OTP.split(""); S.otpErr = false; render(); });
+    const box = (i) => document.getElementById("otp-" + i);
+    const clearOtpErr = () => { if (S.otpErr) { S.otpErr = false; const e = $(".card p.err"); if (e) e.remove(); } };
+    const fillFrom = (i, digits) => {
+      digits.split("").slice(0, 6 - i).forEach((d, k) => { S.otp[i + k] = d; box(i + k).value = d; });
+      box(Math.min(5, i + digits.length))?.focus(); clearOtpErr(); sync();
+    };
+    for (let i = 0; i < 6; i++) {
+      on("otp-" + i, "focus", (e) => e.target.select());
+      on("otp-" + i, "input", (e) => {
+        const d = e.target.value.replace(/\D/g, "");
+        if (d.length > 1) { fillFrom(i, d); return; }
+        S.otp[i] = d; e.target.value = d; clearOtpErr(); sync();
+        if (d && i < 5) box(i + 1).focus();
+      });
+      on("otp-" + i, "keydown", (e) => {
+        if (e.key === "Backspace" && !e.target.value && i > 0) { e.preventDefault(); S.otp[i - 1] = ""; box(i - 1).value = ""; box(i - 1).focus(); sync(); }
+        else if (e.key === "ArrowLeft" && i > 0) box(i - 1).focus();
+        else if (e.key === "ArrowRight" && i < 5) box(i + 1).focus();
+        else if (e.key === "Enter" && S.otp.join("").length === 6) $("#next").click();
+      });
+      on("otp-" + i, "paste", (e) => { const t = (e.clipboardData?.getData("text") || "").replace(/\D/g, ""); if (t) { e.preventDefault(); fillFrom(i, t); } });
+    }
+    document.querySelectorAll("[data-plat]").forEach((b) => b.addEventListener("click", () => {
+      const p = b.dataset.plat; S.platforms = S.platforms.includes(p) ? S.platforms.filter((x) => x !== p) : [...S.platforms, p]; render();
+    }));
+    document.querySelectorAll("[data-tier]").forEach((b) => b.addEventListener("click", () => { S.tier = b.dataset.tier; render(); }));
+    on("f-amt", "input", (e) => { S.amtRaw = e.target.value; S.amount = Math.max(0, parseFloat(S.amtRaw.replace(/[^\d.]/g, "")) || 0); sync(); });
+    document.querySelectorAll('input[name="net"]').forEach((r) => r.addEventListener("change", () => { S.net = r.value; render(); }));
+    on("mkInvoice", "click", () => { S.invoice = { left: 30 * 60, conf: 0 }; render(); startClock(); });
+    on("cancelInv", "click", () => { S.invoice = null; render(); });
+    on("copyAddr", "click", () => copy(NETS.find((x) => x.id === S.net).addr, "Address copied (demo)"));
+    on("simPay", "click", () => {
+      const tick = () => { S.invoice.conf += 3; if (S.invoice.conf >= 19) { S.invoice.conf = 19; render(); setTimeout(finishPayment, 500); return; } render(); setTimeout(tick, 280); };
+      tick();
+    });
+    document.querySelectorAll("[data-page]").forEach((b) => b.addEventListener("click", () => { S.page = b.dataset.page; render(); }));
+    on("newAcc", "click", () => toast("Request sent to your manager"));
+    on("joinGrp", "click", () => toast("Demo: opens the group invite link"));
+    on("copyRef", "click", () => copy("https://" + document.querySelector(".ref .addr span").textContent, "Referral link copied"));
+    on("closeModal", "click", () => { S.modal = false; render(); });
+    on("scrim", "click", (e) => { if (e.target.id === "scrim") { S.modal = false; render(); } });
+  }
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && S.modal) { S.modal = false; render(); } });
+  $("#resetBtn").addEventListener("click", () => { clearInterval(timer); S = fresh(); render(); toast("Demo reset"); });
+  render();
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>if (window.mermaid) mermaid.initialize({ startOnLoad: true, theme: matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default" });</script>
+</body>
+</html>

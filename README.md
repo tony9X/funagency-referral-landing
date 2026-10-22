@@ -17,7 +17,7 @@ Landing page for the FunAgency referral program. Live at **https://funref.com**.
 └── docs/           # Briefs and specs, not deployed
 ```
 
-`docs/client-bot-brief.md` describes the bot for BA and dev. `.vercelignore` keeps `bot/` and `docs/` out of the static deploy.
+`docs/project-brief.md` is the project brief for BA, design and dev (goals, demo, screen-by-screen UI/UX, bot spec); `docs/demo/onboarding.html` is the clickable demo. `.vercelignore` keeps `bot/` and `docs/` out of the static deploy.
 
 No build step. Tailwind is pre-generated and inlined in `index.html`; only Google Fonts is
 loaded from a CDN.
