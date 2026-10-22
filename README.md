@@ -13,10 +13,11 @@ Landing page for the FunAgency referral program. Live at **https://funref.com**.
 ├── robots.txt
 ├── sitemap.xml
 ├── vercel.json     # cleanUrls + security headers
-└── bot/            # Telegram client bot, a separate Node app (see bot/README.md)
+├── bot/            # Telegram client bot, a separate Node app (see bot/README.md)
+└── docs/           # Briefs and specs, not deployed
 ```
 
-`.vercelignore` keeps `bot/` out of the static deploy.
+`docs/client-bot-brief.md` describes the bot for BA and dev. `.vercelignore` keeps `bot/` and `docs/` out of the static deploy.
 
 No build step. Tailwind is pre-generated and inlined in `index.html`; only Google Fonts is
 loaded from a CDN.

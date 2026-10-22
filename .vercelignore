@@ -1,2 +1,3 @@
 # The landing is deployed as a static site from this directory; keep the bot out of it.
 bot/
+docs/
